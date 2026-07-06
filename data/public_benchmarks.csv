@@ -1,0 +1,4 @@
+benchmark,value,source_id,url
+US public-health advisory frames loneliness and isolation as a population-level health concern.,Context note,surgeon_general_2023,https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf
+Cross-national social connection indicators vary substantially by country and age group.,Context note,owid_social_connections,https://ourworldindata.org/social-connections-and-loneliness
+YRBSS provides repeated adolescent risk-behavior context for study framing.,Context note,cdc_yrbs,https://www.cdc.gov/yrbs/

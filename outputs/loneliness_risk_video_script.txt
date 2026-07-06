@@ -1,0 +1,13 @@
+Loneliness, Social Connection, and Risk Decisions.
+
+This project asks a narrow research question: among late adolescents and emerging adults in digitally mediated school and college networks, does loneliness predict riskier decisions?
+
+The design combines psychology and statistics. Psychology defines the constructs: loneliness, social connectedness, immediate reward bias, impulsive spending, risky choice, and defensive conflict response. Statistics turns those constructs into measurable variables, checks reliability, and estimates regression models.
+
+The current database begins with 420 synthetic pilot rows. They are not presented as real human-subject data. They let the website, questionnaire, workbook, and paper demonstrate the full research pipeline before live data collection begins.
+
+The core result in the demonstration sample is clear: the Risk Decision Index rises across loneliness tertiles. The OLS model shows a positive loneliness coefficient and a negative social connectedness coefficient after controls for stress, age, sleep, and platform intensity.
+
+The website then closes the loop. A participant completes the questionnaire, receives a personal risk-decision profile, and the response is stored separately as a live submission. As real responses accumulate, the same charts and models can be updated.
+
+The research is therefore not only a written report. It is a reproducible social-science system: literature, measurement, data collection, database, regression, visualization, and participant feedback in one workflow.

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "russell_1996_ucla",
+    "type": "scale_foundation",
+    "citation": "Russell, D. W. (1996). UCLA Loneliness Scale (Version 3): Reliability, validity, and factor structure. Journal of Personality Assessment, 66(1), 20-40.",
+    "url": "https://doi.org/10.1207/s15327752jpa6601_2",
+    "used_for": "Loneliness measurement precedent and reliability expectations."
+  },
+  {
+    "id": "hughes_2004_tils",
+    "type": "scale_foundation",
+    "citation": "Hughes, M. E., Waite, L. J., Hawkley, L. C., & Cacioppo, J. T. (2004). A short scale for measuring loneliness in large surveys. Research on Aging, 26(6), 655-672.",
+    "url": "https://doi.org/10.1177/0164027504268574",
+    "used_for": "Short-form loneliness survey design logic."
+  },
+  {
+    "id": "hawkley_cacioppo_2010",
+    "type": "theory",
+    "citation": "Hawkley, L. C., & Cacioppo, J. T. (2010). Loneliness matters: A theoretical and empirical review of consequences and mechanisms. Annals of Behavioral Medicine, 40(2), 218-227.",
+    "url": "https://doi.org/10.1007/s12160-010-9210-8",
+    "used_for": "Mechanism model linking perceived isolation with attention, affect, and behavior."
+  },
+  {
+    "id": "cacioppo_hawkley_2009",
+    "type": "theory",
+    "citation": "Cacioppo, J. T., & Hawkley, L. C. (2009). Perceived social isolation and cognition. Trends in Cognitive Sciences, 13(10), 447-454.",
+    "url": "https://doi.org/10.1016/j.tics.2009.06.005",
+    "used_for": "Social threat monitoring and cognition mechanism."
+  },
+  {
+    "id": "lee_2001_connectedness",
+    "type": "scale_foundation",
+    "citation": "Lee, R. M., Draper, M., & Lee, S. (2001). Social connectedness, dysfunctional interpersonal behaviors, and psychological distress: Testing a mediator model. Journal of Counseling Psychology, 48(3), 310-318.",
+    "url": "https://doi.org/10.1037/0022-0167.48.3.310",
+    "used_for": "Social connectedness construct and buffering logic."
+  },
+  {
+    "id": "blais_weber_2006_dospert",
+    "type": "scale_foundation",
+    "citation": "Blais, A. R., & Weber, E. U. (2006). A Domain-Specific Risk-Taking (DOSPERT) scale for adult populations. Judgment and Decision Making, 1(1), 33-47.",
+    "url": "https://doi.org/10.1017/S1930297500000334",
+    "used_for": "Risk-taking task design by domain."
+  },
+  {
+    "id": "kirby_1999_delay",
+    "type": "behavioral_task",
+    "citation": "Kirby, K. N., Petry, N. M., & Bickel, W. K. (1999). Heroin addicts have higher discount rates for delayed rewards than non-drug-using controls. Journal of Experimental Psychology: General, 128(1), 78-87.",
+    "url": "https://doi.org/10.1037/0096-3445.128.1.78",
+    "used_for": "Monetary choice task precedent for delay discounting."
+  },
+  {
+    "id": "rook_fisher_1995_impulse",
+    "type": "scale_foundation",
+    "citation": "Rook, D. W., & Fisher, R. J. (1995). Normative influences on impulsive buying behavior. Journal of Consumer Research, 22(3), 305-313.",
+    "url": "https://doi.org/10.1086/209452",
+    "used_for": "Impulsive consumption construct."
+  },
+  {
+    "id": "duclos_2013_social_exclusion_risk",
+    "type": "mechanism",
+    "citation": "Duclos, R., Wan, E. W., & Jiang, Y. (2013). Show me the honey! Effects of social exclusion on financial risk-taking. Journal of Consumer Research, 40(1), 122-135.",
+    "url": "https://doi.org/10.1086/668900",
+    "used_for": "Social exclusion and risky financial decision mechanism."
+  },
+  {
+    "id": "mead_2011_social_exclusion_spending",
+    "type": "mechanism",
+    "citation": "Mead, N. L., Baumeister, R. F., Stillman, T. F., Rawn, C. D., & Vohs, K. D. (2011). Social exclusion causes people to spend and consume strategically in the service of affiliation. Journal of Consumer Research, 37(5), 902-919.",
+    "url": "https://doi.org/10.1086/656667",
+    "used_for": "Affiliation-seeking consumption after exclusion."
+  },
+  {
+    "id": "surgeon_general_2023",
+    "type": "public_context",
+    "citation": "Office of the U.S. Surgeon General. (2023). Our Epidemic of Loneliness and Isolation: The U.S. Surgeon General's Advisory on the Healing Effects of Social Connection and Community.",
+    "url": "https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf",
+    "used_for": "Public-health context for social connection."
+  },
+  {
+    "id": "owid_social_connections",
+    "type": "public_context",
+    "citation": "Our World in Data. Social Connections and Loneliness.",
+    "url": "https://ourworldindata.org/social-connections-and-loneliness",
+    "used_for": "Public context and cross-national social connection background."
+  },
+  {
+    "id": "cdc_yrbs",
+    "type": "public_context",
+    "citation": "Centers for Disease Control and Prevention. Youth Risk Behavior Surveillance System (YRBSS).",
+    "url": "https://www.cdc.gov/yrbs/",
+    "used_for": "Adolescent risk-behavior survey context."
+  }
+]

@@ -1,0 +1,356 @@
+{
+  "n": 420,
+  "generated_at": "2026-07-01T12:59:08.681330+00:00",
+  "cronbach_alpha": {
+    "loneliness_custom_7_item": 0.911,
+    "social_connection_custom_6_item": 0.892
+  },
+  "ols": [
+    {
+      "term": "Intercept",
+      "estimate": 48.0724,
+      "std_error": 0.5871,
+      "t_stat": 81.8825,
+      "p_approx": 0.0,
+      "ci_low": 46.9217,
+      "ci_high": 49.2231
+    },
+    {
+      "term": "loneliness_z",
+      "estimate": 9.8147,
+      "std_error": 0.785,
+      "t_stat": 12.5024,
+      "p_approx": 0.0,
+      "ci_low": 8.2761,
+      "ci_high": 11.3534
+    },
+    {
+      "term": "social_connection_z",
+      "estimate": -5.1317,
+      "std_error": 0.6279,
+      "t_stat": -8.1729,
+      "p_approx": 0.0,
+      "ci_low": -6.3623,
+      "ci_high": -3.901
+    },
+    {
+      "term": "stress_z",
+      "estimate": 4.9362,
+      "std_error": 0.6722,
+      "t_stat": 7.3429,
+      "p_approx": 0.0,
+      "ci_low": 3.6186,
+      "ci_high": 6.2538
+    },
+    {
+      "term": "age_z",
+      "estimate": 0.9789,
+      "std_error": 0.5089,
+      "t_stat": 1.9235,
+      "p_approx": 0.0544,
+      "ci_low": -0.0186,
+      "ci_high": 1.9763
+    },
+    {
+      "term": "platform_sessions_z",
+      "estimate": 1.067,
+      "std_error": 0.5908,
+      "t_stat": 1.806,
+      "p_approx": 0.0709,
+      "ci_low": -0.091,
+      "ci_high": 2.225
+    },
+    {
+      "term": "sleep_z",
+      "estimate": 0.1521,
+      "std_error": 0.6457,
+      "t_stat": 0.2356,
+      "p_approx": 0.8138,
+      "ci_low": -1.1135,
+      "ci_high": 1.4177
+    },
+    {
+      "term": "loneliness_x_connection",
+      "estimate": 0.0525,
+      "std_error": 0.5297,
+      "t_stat": 0.099,
+      "p_approx": 0.9211,
+      "ci_low": -0.9858,
+      "ci_high": 1.0907
+    }
+  ],
+  "logit": [
+    {
+      "term": "Intercept",
+      "logit_estimate": -2.5311,
+      "odds_ratio": 0.0796,
+      "std_error": 0.2918,
+      "z_stat": -8.6735,
+      "p_approx": 0.0
+    },
+    {
+      "term": "loneliness_z",
+      "logit_estimate": 1.6296,
+      "odds_ratio": 5.1019,
+      "std_error": 0.3488,
+      "z_stat": 4.6715,
+      "p_approx": 0.0
+    },
+    {
+      "term": "social_connection_z",
+      "logit_estimate": -0.9977,
+      "odds_ratio": 0.3687,
+      "std_error": 0.306,
+      "z_stat": -3.2605,
+      "p_approx": 0.0011
+    },
+    {
+      "term": "stress_z",
+      "logit_estimate": 1.1296,
+      "odds_ratio": 3.0945,
+      "std_error": 0.2339,
+      "z_stat": 4.8305,
+      "p_approx": 0.0
+    },
+    {
+      "term": "age_z",
+      "logit_estimate": 0.1269,
+      "odds_ratio": 1.1353,
+      "std_error": 0.1616,
+      "z_stat": 0.7853,
+      "p_approx": 0.4323
+    },
+    {
+      "term": "platform_sessions_z",
+      "logit_estimate": 0.2414,
+      "odds_ratio": 1.273,
+      "std_error": 0.1863,
+      "z_stat": 1.2958,
+      "p_approx": 0.1951
+    },
+    {
+      "term": "sleep_z",
+      "logit_estimate": 0.1602,
+      "odds_ratio": 1.1737,
+      "std_error": 0.2116,
+      "z_stat": 0.7571,
+      "p_approx": 0.449
+    },
+    {
+      "term": "loneliness_x_connection",
+      "logit_estimate": 0.2346,
+      "odds_ratio": 1.2644,
+      "std_error": 0.3393,
+      "z_stat": 0.6914,
+      "p_approx": 0.4893
+    }
+  ],
+  "anova": {
+    "outcome": "risk_decision_index",
+    "group": "loneliness_group",
+    "F": 258.5921,
+    "df_between": 2,
+    "df_within": 417,
+    "eta_squared": 0.5536,
+    "p_permutation": 0.0007
+  },
+  "correlation_matrix": {
+    "loneliness_score": {
+      "loneliness_score": 1.0,
+      "social_connection_score": -0.567,
+      "immediate_reward_bias": 0.653,
+      "impulsive_spending_score": 0.646,
+      "high_risk_choice_score": 0.514,
+      "conflict_defense_score": 0.71,
+      "risk_decision_index": 0.802,
+      "platform_sessions_per_day": 0.475,
+      "messages_sent_per_day": -0.376,
+      "in_person_conversations_per_week": -0.518
+    },
+    "social_connection_score": {
+      "loneliness_score": -0.567,
+      "social_connection_score": 1.0,
+      "immediate_reward_bias": -0.526,
+      "impulsive_spending_score": -0.503,
+      "high_risk_choice_score": -0.403,
+      "conflict_defense_score": -0.623,
+      "risk_decision_index": -0.647,
+      "platform_sessions_per_day": -0.388,
+      "messages_sent_per_day": 0.559,
+      "in_person_conversations_per_week": 0.578
+    },
+    "immediate_reward_bias": {
+      "loneliness_score": 0.653,
+      "social_connection_score": -0.526,
+      "immediate_reward_bias": 1.0,
+      "impulsive_spending_score": 0.461,
+      "high_risk_choice_score": 0.417,
+      "conflict_defense_score": 0.543,
+      "risk_decision_index": 0.844,
+      "platform_sessions_per_day": 0.388,
+      "messages_sent_per_day": -0.38,
+      "in_person_conversations_per_week": -0.495
+    },
+    "impulsive_spending_score": {
+      "loneliness_score": 0.646,
+      "social_connection_score": -0.503,
+      "immediate_reward_bias": 0.461,
+      "impulsive_spending_score": 1.0,
+      "high_risk_choice_score": 0.423,
+      "conflict_defense_score": 0.543,
+      "risk_decision_index": 0.762,
+      "platform_sessions_per_day": 0.339,
+      "messages_sent_per_day": -0.32,
+      "in_person_conversations_per_week": -0.398
+    },
+    "high_risk_choice_score": {
+      "loneliness_score": 0.514,
+      "social_connection_score": -0.403,
+      "immediate_reward_bias": 0.417,
+      "impulsive_spending_score": 0.423,
+      "high_risk_choice_score": 1.0,
+      "conflict_defense_score": 0.457,
+      "risk_decision_index": 0.722,
+      "platform_sessions_per_day": 0.317,
+      "messages_sent_per_day": -0.241,
+      "in_person_conversations_per_week": -0.389
+    },
+    "conflict_defense_score": {
+      "loneliness_score": 0.71,
+      "social_connection_score": -0.623,
+      "immediate_reward_bias": 0.543,
+      "impulsive_spending_score": 0.543,
+      "high_risk_choice_score": 0.457,
+      "conflict_defense_score": 1.0,
+      "risk_decision_index": 0.757,
+      "platform_sessions_per_day": 0.405,
+      "messages_sent_per_day": -0.426,
+      "in_person_conversations_per_week": -0.459
+    },
+    "risk_decision_index": {
+      "loneliness_score": 0.802,
+      "social_connection_score": -0.647,
+      "immediate_reward_bias": 0.844,
+      "impulsive_spending_score": 0.762,
+      "high_risk_choice_score": 0.722,
+      "conflict_defense_score": 0.757,
+      "risk_decision_index": 1.0,
+      "platform_sessions_per_day": 0.462,
+      "messages_sent_per_day": -0.434,
+      "in_person_conversations_per_week": -0.563
+    },
+    "platform_sessions_per_day": {
+      "loneliness_score": 0.475,
+      "social_connection_score": -0.388,
+      "immediate_reward_bias": 0.388,
+      "impulsive_spending_score": 0.339,
+      "high_risk_choice_score": 0.317,
+      "conflict_defense_score": 0.405,
+      "risk_decision_index": 0.462,
+      "platform_sessions_per_day": 1.0,
+      "messages_sent_per_day": -0.194,
+      "in_person_conversations_per_week": -0.278
+    },
+    "messages_sent_per_day": {
+      "loneliness_score": -0.376,
+      "social_connection_score": 0.559,
+      "immediate_reward_bias": -0.38,
+      "impulsive_spending_score": -0.32,
+      "high_risk_choice_score": -0.241,
+      "conflict_defense_score": -0.426,
+      "risk_decision_index": -0.434,
+      "platform_sessions_per_day": -0.194,
+      "messages_sent_per_day": 1.0,
+      "in_person_conversations_per_week": 0.394
+    },
+    "in_person_conversations_per_week": {
+      "loneliness_score": -0.518,
+      "social_connection_score": 0.578,
+      "immediate_reward_bias": -0.495,
+      "impulsive_spending_score": -0.398,
+      "high_risk_choice_score": -0.389,
+      "conflict_defense_score": -0.459,
+      "risk_decision_index": -0.563,
+      "platform_sessions_per_day": -0.278,
+      "messages_sent_per_day": 0.394,
+      "in_person_conversations_per_week": 1.0
+    }
+  },
+  "group_summary": [
+    {
+      "loneliness_group": "Low loneliness",
+      "n": 150,
+      "loneliness_score": 29.88,
+      "social_connection_score": 72.95,
+      "immediate_reward_bias": 21.45,
+      "impulsive_spending_score": 40.07,
+      "high_risk_choice_score": 27.2,
+      "conflict_defense_score": 35.83,
+      "risk_decision_index": 29.69
+    },
+    {
+      "loneliness_group": "Moderate loneliness",
+      "n": 145,
+      "loneliness_score": 60.96,
+      "social_connection_score": 55.12,
+      "immediate_reward_bias": 46.9,
+      "impulsive_spending_score": 59.55,
+      "high_risk_choice_score": 42.34,
+      "conflict_defense_score": 62.1,
+      "risk_decision_index": 51.2
+    },
+    {
+      "loneliness_group": "High loneliness",
+      "n": 125,
+      "loneliness_score": 85.63,
+      "social_connection_score": 40.73,
+      "immediate_reward_bias": 61.86,
+      "impulsive_spending_score": 75.04,
+      "high_risk_choice_score": 57.6,
+      "conflict_defense_score": 77.16,
+      "risk_decision_index": 66.39
+    }
+  ],
+  "decision_type_counts": [
+    {
+      "decision_type": "Balanced decision-maker",
+      "n": 115
+    },
+    {
+      "decision_type": "Social-buffered deliberator",
+      "n": 114
+    },
+    {
+      "decision_type": "Conflict-defensive responder",
+      "n": 111
+    },
+    {
+      "decision_type": "Reward-sensitive accelerator",
+      "n": 46
+    },
+    {
+      "decision_type": "Risk-seeking chooser",
+      "n": 34
+    }
+  ],
+  "public_benchmarks": [
+    {
+      "benchmark": "US public-health advisory frames loneliness and isolation as a population-level health concern.",
+      "value": "Context note",
+      "source_id": "surgeon_general_2023",
+      "url": "https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf"
+    },
+    {
+      "benchmark": "Cross-national social connection indicators vary substantially by country and age group.",
+      "value": "Context note",
+      "source_id": "owid_social_connections",
+      "url": "https://ourworldindata.org/social-connections-and-loneliness"
+    },
+    {
+      "benchmark": "YRBSS provides repeated adolescent risk-behavior context for study framing.",
+      "value": "Context note",
+      "source_id": "cdc_yrbs",
+      "url": "https://www.cdc.gov/yrbs/"
+    }
+  ]
+}

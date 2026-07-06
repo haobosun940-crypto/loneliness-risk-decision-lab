@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: loneliness-risk-decision-lab
+    runtime: python
+    plan: free
+    buildCommand: python -m compileall server.py
+    startCommand: python server.py
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+# For a longer public data-collection run, upgrade the Render service to a paid
+# plan and add a persistent disk, then set:
+# LONELINESS_DB_PATH=/var/data/loneliness_risk.db
