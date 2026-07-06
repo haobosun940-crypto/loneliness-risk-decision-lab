@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="stylesheet" href="/static/styles.css?v=research-product-depth-20260707" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   </head>
@@ -56,11 +56,14 @@
           <p class="lead" data-i18n="lead">
             A brighter research interface for testing how social connection predicts immediate rewards, impulsive spending, risky choices, and conflict-response style.
           </p>
+          <p class="hero-promise" data-i18n="heroPromise">
+            Take a 3-minute behavioral test and receive a risk-decision profile based on loneliness, social connection, and reward preference.
+          </p>
           <div class="research-rail" aria-label="Live study route">
-            <span><i data-lucide="mouse-pointer-click"></i> Survey</span>
-            <span><i data-lucide="server"></i> API</span>
-            <span><i data-lucide="database-zap"></i> SQLite</span>
-            <span><i data-lucide="chart-no-axes-combined"></i> Models</span>
+            <span><i data-lucide="timer"></i> 3 min test</span>
+            <span><i data-lucide="mouse-pointer-click"></i> Survey + choices</span>
+            <span><i data-lucide="gauge"></i> Instant profile</span>
+            <span><i data-lucide="shield-check"></i> Research use only</span>
           </div>
           <div class="news-strip" aria-label="Research context">
             <a href="https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf" target="_blank" rel="noreferrer">
@@ -102,6 +105,15 @@
           </div>
           <div class="signal-stage" aria-label="Animated social signal network">
             <canvas id="signalCanvas"></canvas>
+          </div>
+          <div class="signal-legend" aria-label="Signal legend">
+            <span><b>L</b> Loneliness</span>
+            <span><b>S</b> Stress</span>
+            <span><b>R</b> Risk decision</span>
+            <span><b>C</b> Connection</span>
+            <span><b>I</b> Impulsivity</span>
+          </div>
+          <div class="signal-readouts" aria-label="Model coefficient readouts">
             <div class="signal-card signal-card-a">
               <span>Loneliness z</span>
               <strong id="heroLonelinessBeta">+9.81</strong>
@@ -132,6 +144,36 @@
         </div>
       </section>
 
+      <section class="study-overview page-section" data-pages="home research">
+        <div class="section-heading compact">
+          <p class="eyebrow">About this study</p>
+          <h2>A research-oriented behavioral assessment, not a clinical diagnosis.</h2>
+          <p>
+            The project measures late adolescents and emerging adults in digital peer contexts. It combines self-report loneliness and connection items with short decision tasks, then converts the responses into standardized indicators for scoring, visualization, and regression analysis.
+          </p>
+        </div>
+        <div class="overview-grid">
+          <article>
+            <i data-lucide="search-check"></i>
+            <span>Research question</span>
+            <strong>Does loneliness change how people choose risk?</strong>
+            <p>Primary focus: loneliness and social connection as predictors of immediate rewards, impulsive spending, high-risk choices, and conflict-defense responses.</p>
+          </article>
+          <article>
+            <i data-lucide="clipboard-list"></i>
+            <span>Measurement</span>
+            <strong>Survey items + behavioral choice tasks</strong>
+            <p>The test uses Likert batteries, social-signal inputs, delay choices, spending scenarios, risky options, and conflict-response sliders.</p>
+          </article>
+          <article>
+            <i data-lucide="shield-alert"></i>
+            <span>Boundary</span>
+            <strong>Educational research tool only</strong>
+            <p>Scores estimate a decision-profile index for research and class presentation. They are not mental-health diagnosis or clinical advice.</p>
+          </article>
+        </div>
+      </section>
+
       <section class="launch-console page-section" data-pages="home research dashboard">
         <div class="console-head">
           <p class="eyebrow">Operational research OS</p>
@@ -141,27 +183,40 @@
           <a class="launch-card" href="/survey">
             <i data-lucide="clipboard-check"></i>
             <span>01</span>
-            <strong>Participant test</strong>
-            <p>Separate survey route with instant personal profile and optional saved response.</p>
+            <strong>Take the behavioral test</strong>
+            <p>Open a focused survey route with social-signal questions and decision scenarios.</p>
           </a>
           <a class="launch-card" href="/dashboard">
-            <i data-lucide="radar"></i>
+            <i data-lucide="gauge"></i>
             <span>02</span>
-            <strong>Live database cockpit</strong>
-            <p>QR sharing, SQLite preview, CSV export, and current live submission counts.</p>
+            <strong>Generate personal scores</strong>
+            <p>Receive standardized loneliness, connection, reward, spending, risk, and conflict indicators.</p>
           </a>
           <a class="launch-card" href="/research">
             <i data-lucide="sigma"></i>
             <span>03</span>
-            <strong>Statistical engine</strong>
-            <p>Reliability, ANOVA, OLS, decision types, and interpretable chart panels.</p>
+            <strong>Analyze group-level data</strong>
+            <p>Use reliability checks, OLS, ANOVA, decision types, and chart panels for interpretation.</p>
           </a>
           <a class="launch-card" href="/downloads">
             <i data-lucide="folder-down"></i>
             <span>04</span>
-            <strong>Publication package</strong>
-            <p>PDF, Word, PPTX, Excel, video, CSV export, and full research zip.</p>
+            <strong>Export research package</strong>
+            <p>Download the paper, Word report, slides, workbook, video, live CSV, and full package.</p>
           </a>
+        </div>
+      </section>
+
+      <section class="how-it-works page-section" data-pages="home research">
+        <div class="section-heading compact">
+          <p class="eyebrow">How it works</p>
+          <h2>Start with participation, end with interpretable research outputs.</h2>
+        </div>
+        <div class="work-grid">
+          <article><span>01</span><strong>Answer a short survey</strong><p>Social contact, digital behavior, loneliness, and connection are measured with numeric inputs and Likert items.</p></article>
+          <article><span>02</span><strong>Complete decision scenarios</strong><p>Delay choices, spending choices, risky options, and conflict responses turn abstract psychology into behavioral data.</p></article>
+          <article><span>03</span><strong>Receive standardized scores</strong><p>The site returns 0-100 indicators and a decision-profile type that can be viewed immediately.</p></article>
+          <article><span>04</span><strong>Export or analyze data</strong><p>Live submissions stay separate from synthetic pilot rows and can be exported for classroom or research analysis.</p></article>
         </div>
       </section>
 
@@ -194,8 +249,14 @@
           <p class="eyebrow" data-i18n="pipelineEyebrow">End-to-end research workflow</p>
           <h2 data-i18n="pipelineTitle">Four agents turn a psychology question into a statistical system.</h2>
         </div>
+        <div class="workflow-preview" aria-label="Visible research workflow">
+          <div><i data-lucide="clipboard-pen-line"></i><strong>Survey Agent</strong><span>collects behavioral and self-report responses</span></div>
+          <div><i data-lucide="calculator"></i><strong>Scoring Agent</strong><span>converts answers into standardized indicators</span></div>
+          <div><i data-lucide="chart-spline"></i><strong>Analysis Agent</strong><span>runs OLS, ANOVA, and reliability checks</span></div>
+          <div><i data-lucide="file-output"></i><strong>Report Agent</strong><span>generates downloadable research materials</span></div>
+        </div>
         <details class="research-disclosure">
-          <summary><span data-i18n="openWorkflow">Open workflow map</span><i data-lucide="plus"></i></summary>
+          <summary><span data-i18n="openWorkflow">View workflow details</span><i data-lucide="plus"></i></summary>
           <div class="agent-grid">
             <article>
               <span class="agent-index">01</span>
@@ -237,8 +298,12 @@
             <p class="eyebrow" data-i18n="resultEyebrow">Model outputs</p>
             <h2 data-i18n="resultTitle">The synthetic pilot shows a positive loneliness-risk gradient.</h2>
           </div>
+          <div class="model-interpretation">
+            <span>Interpretation</span>
+            <p>In the synthetic pilot, loneliness shows a positive association with the Risk Decision Index, while social connection shows a negative association. The live dataset is kept separate so real submissions can be evaluated without mixing them with simulated pilot rows.</p>
+          </div>
           <details class="research-disclosure chart-disclosure" data-chart-details>
-            <summary><span data-i18n="openCharts">Open model charts</span><i data-lucide="plus"></i></summary>
+            <summary><span data-i18n="openCharts">View model charts</span><i data-lucide="plus"></i></summary>
             <div class="chart-stack">
               <div class="chart-card">
                 <canvas id="coefChart" height="230"></canvas>
@@ -367,42 +432,71 @@
           <h2>Download the paper, Word report, deck, workbook, video, and data exports.</h2>
           <p>The project is structured as a reusable research-product template: public site, live survey, SQLite data pipeline, statistical report, and presentation assets.</p>
         </div>
-        <div class="download-grid">
-          <a class="download-card" href="/outputs/loneliness_risk_research_paper.pdf">
-            <i data-lucide="file-text"></i>
-            <span>Paper PDF</span>
-            <strong>Professor-style research report</strong>
-          </a>
-          <a class="download-card" href="/outputs/loneliness_risk_research_report.docx">
-            <i data-lucide="file-type"></i>
-            <span>Word report</span>
-            <strong>Editable DOCX research report</strong>
-          </a>
-          <a class="download-card" href="/outputs/loneliness_risk_research_deck.pptx">
-            <i data-lucide="presentation"></i>
-            <span>Slide deck</span>
-            <strong>Presentation-ready PPTX</strong>
-          </a>
-          <a class="download-card" href="/outputs/loneliness_risk_research_workbook.xlsx">
-            <i data-lucide="sheet"></i>
-            <span>Workbook</span>
-            <strong>Data tables and analysis sheets</strong>
-          </a>
-          <a class="download-card" href="/outputs/loneliness_risk_intro_video.mp4">
-            <i data-lucide="film"></i>
-            <span>Intro video</span>
-            <strong>Research overview video</strong>
-          </a>
-          <a class="download-card" href="/api/export.csv">
-            <i data-lucide="database"></i>
-            <span>Live CSV</span>
-            <strong>Current survey export</strong>
-          </a>
-          <a class="download-card" href="/outputs/loneliness_risk_research_package.zip">
-            <i data-lucide="package"></i>
-            <span>Full package</span>
-            <strong>All final deliverables</strong>
-          </a>
+        <div class="download-groups">
+          <div class="download-group">
+            <div class="download-group-head">
+              <span>For participants</span>
+              <p>Immediate profile and response copy for people taking the test.</p>
+            </div>
+            <div class="download-grid compact-grid">
+              <a class="download-card" href="/survey">
+                <i data-lucide="user-round-check"></i>
+                <span>Profile</span>
+                <strong>Generate personal risk-decision profile</strong>
+                <small>Web result · instant</small>
+              </a>
+              <a class="download-card" href="/api/export.csv">
+                <i data-lucide="database"></i>
+                <span>Live CSV</span>
+                <strong>Current survey export</strong>
+                <small>CSV · live local data</small>
+              </a>
+            </div>
+          </div>
+          <div class="download-group">
+            <div class="download-group-head">
+              <span>For researchers / instructors</span>
+              <p>Academic materials for explaining the design, data pipeline, models, and presentation logic.</p>
+            </div>
+            <div class="download-grid">
+              <a class="download-card" href="/outputs/loneliness_risk_research_paper.pdf">
+                <i data-lucide="file-text"></i>
+                <span>Paper PDF</span>
+                <strong>Full academic research paper</strong>
+                <small>PDF · 468 KB</small>
+              </a>
+              <a class="download-card" href="/outputs/loneliness_risk_research_report.docx">
+                <i data-lucide="file-type"></i>
+                <span>Word report</span>
+                <strong>Editable DOCX research report</strong>
+                <small>DOCX · 380 KB</small>
+              </a>
+              <a class="download-card" href="/outputs/loneliness_risk_research_deck.pptx">
+                <i data-lucide="presentation"></i>
+                <span>Slide deck</span>
+                <strong>Presentation-ready PPTX</strong>
+                <small>PPTX · 48 KB</small>
+              </a>
+              <a class="download-card" href="/outputs/loneliness_risk_research_workbook.xlsx">
+                <i data-lucide="sheet"></i>
+                <span>Workbook</span>
+                <strong>Data tables and analysis sheets</strong>
+                <small>XLSX · 152 KB</small>
+              </a>
+              <a class="download-card" href="/outputs/loneliness_risk_intro_video.mp4">
+                <i data-lucide="film"></i>
+                <span>Intro video</span>
+                <strong>Research overview video</strong>
+                <small>MP4 · 1.9 MB</small>
+              </a>
+              <a class="download-card" href="/outputs/loneliness_risk_research_package.zip">
+                <i data-lucide="package"></i>
+                <span>Full package</span>
+                <strong>All final deliverables</strong>
+                <small>ZIP · 5.0 MB</small>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -416,6 +510,18 @@
             <details>
               <summary>Is this a psychological diagnosis?<span>+</span></summary>
               <p>No. The website is an educational research instrument. It estimates a decision-profile index and should not be used as clinical or mental-health diagnosis.</p>
+            </details>
+            <details>
+              <summary>How long does the test take?<span>+</span></summary>
+              <p>Most participants can finish in about three minutes. The survey combines short social-signal questions, loneliness and connection items, and brief decision scenarios.</p>
+            </details>
+            <details>
+              <summary>Is my response anonymous?<span>+</span></summary>
+              <p>The form does not ask for a name. Live submissions are stored on this server for research demonstration and CSV export, while synthetic pilot data remain clearly separated.</p>
+            </details>
+            <details>
+              <summary>Can I retake the test?<span>+</span></summary>
+              <p>Yes. Retaking creates a new score. Use “Score without saving” if you want to see a profile without adding another live submission to the local database.</p>
             </details>
             <details>
               <summary>What population is the study designed for?<span>+</span></summary>
@@ -441,6 +547,9 @@
           <aside class="contact-card" id="contact">
             <p class="eyebrow">Contact</p>
             <h3>Project contact</h3>
+            <p class="contact-meta"><strong>Project lead</strong> He Haoze</p>
+            <p class="contact-meta"><strong>Project type</strong> Behavioral research prototype / class-ready lab product</p>
+            <p class="contact-meta"><strong>Data note</strong> This public prototype is for educational research presentation; avoid submitting sensitive personal information.</p>
             <a href="mailto:hehaoze080216@163.com">hehaoze080216@163.com</a>
             <a href="tel:+8613564087767">+86 13564087767</a>
           </aside>
@@ -454,6 +563,6 @@
     </footer>
 
     <script src="/static/qrcode.min.js"></script>
-    <script src="/static/app.js"></script>
+    <script src="/static/app.js?v=research-product-depth-20260707"></script>
   </body>
 </html>

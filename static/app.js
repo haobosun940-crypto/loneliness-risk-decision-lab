@@ -31,24 +31,25 @@ const i18n = {
     methodTag: "Psychology + statistics",
     eyebrow: "Behavioral decision science research system",
     headline: "Loneliness, connection, and risky decisions",
-    lead: "A brighter research interface for testing how social connection predicts immediate rewards, impulsive spending, risky choices, and conflict-response style.",
+    lead: "A behavioral research tool for measuring how social connection relates to reward timing, conflict response, and risk preference.",
+    heroPromise: "Take a 3-minute behavioral test and receive a risk-decision profile based on loneliness, social connection, and reward preference.",
     hypothesisLabel: "Primary hypothesis",
     hypothesisText: "Higher loneliness predicts a higher Risk Decision Index, while social connection buffers the pattern.",
     cockpitKicker: "Quant cockpit",
     cockpitTitle: "From social signals to risk estimates",
-    startTest: "Start the decision test",
+    startTest: "Start Decision Test",
     startTestShort: "Start Test",
     exportCsv: "Export CSV",
-    openStatistics: "Open statistics",
-    openWorkflow: "Open workflow map",
-    openCharts: "Open model charts",
+    openStatistics: "View statistics",
+    openWorkflow: "View workflow details",
+    openCharts: "View model charts",
     pulseEyebrow: "Research pulse",
     pulseTitle: "Why this topic belongs at the intersection of psychology and statistics.",
     metricSample: "Synthetic pilot n",
     metricLive: "Live submissions",
     metricAlpha: "Loneliness alpha",
     pipelineEyebrow: "End-to-end research workflow",
-    pipelineTitle: "Four agents turn a psychology question into a statistical system.",
+    pipelineTitle: "Survey, scoring, analysis, and reporting work as one visible research pipeline.",
     agent1: "Data Intake Agent",
     agent1Text: "Separates synthetic pilot rows, live submissions, and public benchmark notes inside SQLite.",
     agent2: "Scoring Agent",
@@ -94,7 +95,8 @@ const i18n = {
     methodTag: "心理学 + 统计学",
     eyebrow: "行为决策科学研究系统",
     headline: "孤独感、连接感与风险选择",
-    lead: "一个更明亮的研究界面，用来测试社交连接如何预测即时奖励、冲动消费、高风险选择和冲突反应。",
+    lead: "一个行为研究工具，用来测量社交连接如何关联奖励时机、冲突反应和风险偏好。",
+    heroPromise: "用约 3 分钟完成行为测试，并获得基于孤独感、社交连接和奖励偏好的风险决策画像。",
     hypothesisLabel: "核心假设",
     hypothesisText: "更高的孤独感会预测更高的风险决策指数，而社交连接感会起到缓冲作用。",
     cockpitKicker: "量化驾驶舱",
@@ -102,16 +104,16 @@ const i18n = {
     startTest: "开始决策测试",
     startTestShort: "Start Test",
     exportCsv: "导出 CSV",
-    openStatistics: "展开统计图",
-    openWorkflow: "展开研究流程",
-    openCharts: "展开模型图表",
+    openStatistics: "查看统计图",
+    openWorkflow: "查看流程详情",
+    openCharts: "查看模型图表",
     pulseEyebrow: "研究引入",
     pulseTitle: "为什么这个主题属于心理学与统计学的交叉。",
     metricSample: "模拟试点样本 n",
     metricLive: "真实提交数",
     metricAlpha: "孤独量表 alpha",
     pipelineEyebrow: "端到端研究流程",
-    pipelineTitle: "四个模块把心理学问题变成统计系统。",
+    pipelineTitle: "问卷、评分、分析和报告组成一个可见的研究流程。",
     agent1: "数据收集 Agent",
     agent1Text: "在 SQLite 中区分 synthetic pilot、live submissions 和 public benchmark。",
     agent2: "评分 Agent",
@@ -532,13 +534,13 @@ function initAmbientCanvas() {
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    const count = Math.max(34, Math.min(78, Math.floor((width * height) / 26000)));
+    const count = Math.max(58, Math.min(120, Math.floor((width * height) / 18000)));
     particles = Array.from({ length: count }, (_, index) => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * (0.12 + (index % 5) * 0.015),
-      vy: (Math.random() - 0.5) * (0.12 + (index % 7) * 0.012),
-      r: 1.1 + Math.random() * 1.8,
+      vx: (Math.random() - 0.5) * (0.18 + (index % 5) * 0.02),
+      vy: (Math.random() - 0.5) * (0.18 + (index % 7) * 0.018),
+      r: 1.3 + Math.random() * 2.4,
       hue: index % 4,
       phase: Math.random() * Math.PI * 2,
     }));
@@ -561,6 +563,24 @@ function initAmbientCanvas() {
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = 1;
 
+    const sweep = reduceMotion ? width * 0.55 : ((time / 9000) % 1) * width * 1.45 - width * 0.22;
+    ctx.save();
+    ctx.globalAlpha = 0.42;
+    ctx.lineWidth = 1.2;
+    for (let i = -2; i < 5; i += 1) {
+      const x = sweep + i * 92;
+      const gradient = ctx.createLinearGradient(x - 160, 0, x + 220, height);
+      gradient.addColorStop(0, "rgba(39, 100, 255, 0)");
+      gradient.addColorStop(0.5, "rgba(42, 189, 245, 0.28)");
+      gradient.addColorStop(1, "rgba(15, 186, 167, 0)");
+      ctx.strokeStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(x - 180, 0);
+      ctx.lineTo(x + 220, height);
+      ctx.stroke();
+    }
+    ctx.restore();
+
     particles.forEach((particle, i) => {
       if (!reduceMotion) {
         particle.x += particle.vx;
@@ -578,8 +598,8 @@ function initAmbientCanvas() {
         const dx = particle.x - other.x;
         const dy = particle.y - other.y;
         const distance = Math.hypot(dx, dy);
-        if (distance > 132) continue;
-        const alpha = (1 - distance / 132) * 0.18;
+        if (distance > 150) continue;
+        const alpha = (1 - distance / 150) * 0.26;
         ctx.beginPath();
         ctx.moveTo(particle.x, particle.y);
         ctx.lineTo(other.x, other.y);
@@ -595,14 +615,14 @@ function initAmbientCanvas() {
           ctx.beginPath();
           ctx.moveTo(particle.x, particle.y);
           ctx.lineTo(px, py);
-          ctx.strokeStyle = `rgba(39, 100, 255, ${(1 - distance / 180) * 0.16})`;
+          ctx.strokeStyle = `rgba(39, 100, 255, ${(1 - distance / 180) * 0.28})`;
           ctx.stroke();
         }
       }
 
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
-      ctx.fillStyle = colorFor(particle, 0.38);
+      ctx.fillStyle = colorFor(particle, 0.58);
       ctx.fill();
     });
 
@@ -624,9 +644,13 @@ function initAmbientCanvas() {
 function initPointerSpotlight() {
   const selectors = [
     ".news-strip a",
+    ".overview-grid article",
     ".pulse-grid article",
+    ".work-grid article",
+    ".workflow-preview div",
     ".launch-card",
     ".download-card",
+    ".download-group",
     ".source-list article",
     ".faq-list details",
   ].join(",");
@@ -647,11 +671,11 @@ function initSignalCanvas() {
   const ctx = canvas.getContext("2d");
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const nodes = [
-    { x: 0.18, y: 0.62, color: "#B23A48", label: "L" },
-    { x: 0.36, y: 0.32, color: "#456990", label: "S" },
-    { x: 0.58, y: 0.58, color: "#D98E04", label: "R" },
-    { x: 0.78, y: 0.28, color: "#2D6A6A", label: "C" },
-    { x: 0.82, y: 0.66, color: "#678D58", label: "I" },
+    { x: 0.16, y: 0.62, color: "#fb7185", label: "L" },
+    { x: 0.34, y: 0.28, color: "#93c5fd", label: "S" },
+    { x: 0.56, y: 0.56, color: "#f9d56e", label: "R" },
+    { x: 0.78, y: 0.28, color: "#67e8f9", label: "C" },
+    { x: 0.84, y: 0.66, color: "#86efac", label: "I" },
   ];
   const links = [
     [0, 2],
@@ -676,6 +700,19 @@ function initSignalCanvas() {
     ctx.clearRect(0, 0, width, height);
     const pulse = reduceMotion ? 0.55 : (Math.sin(time / 520) + 1) / 2;
 
+    ctx.save();
+    ctx.translate(width * 0.55, height * 0.5);
+    ctx.strokeStyle = "rgba(125, 211, 252, 0.12)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 4; i += 1) {
+      const w = width * (0.28 + i * 0.16);
+      const h = height * (0.2 + i * 0.11);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, w, h, -0.08, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+
     links.forEach(([from, to], idx) => {
       const a = nodes[from];
       const b = nodes[to];
@@ -684,35 +721,48 @@ function initSignalCanvas() {
       const bx = b.x * width;
       const by = b.y * height;
       const progress = reduceMotion ? 0.65 : (Math.sin(time / 720 + idx) + 1) / 2;
+      const gradient = ctx.createLinearGradient(ax, ay, bx, by);
+      gradient.addColorStop(0, "rgba(251, 113, 133, 0.22)");
+      gradient.addColorStop(0.48, "rgba(103, 232, 249, 0.62)");
+      gradient.addColorStop(1, "rgba(249, 213, 110, 0.26)");
       ctx.beginPath();
       ctx.moveTo(ax, ay);
       ctx.lineTo(bx, by);
-      ctx.strokeStyle = "rgba(28, 36, 48, 0.18)";
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 2.4;
+      ctx.shadowColor = "rgba(103, 232, 249, 0.24)";
+      ctx.shadowBlur = 10;
       ctx.stroke();
+      ctx.shadowBlur = 0;
       ctx.beginPath();
-      ctx.arc(ax + (bx - ax) * progress, ay + (by - ay) * progress, 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = idx % 2 === 0 ? "#B23A48" : "#2A9D8F";
+      ctx.arc(ax + (bx - ax) * progress, ay + (by - ay) * progress, 4.6, 0, Math.PI * 2);
+      ctx.fillStyle = idx % 2 === 0 ? "#fb7185" : "#67e8f9";
+      ctx.shadowColor = ctx.fillStyle;
+      ctx.shadowBlur = 16;
       ctx.fill();
+      ctx.shadowBlur = 0;
     });
 
     nodes.forEach((node, idx) => {
       const x = node.x * width;
       const y = node.y * height;
-      const radius = 17 + (idx % 2 === 0 ? pulse * 3 : (1 - pulse) * 2);
+      const radius = 19 + (idx % 2 === 0 ? pulse * 4 : (1 - pulse) * 3);
       ctx.beginPath();
-      ctx.arc(x, y, radius + 7, 0, Math.PI * 2);
-      ctx.fillStyle = `${node.color}22`;
+      ctx.arc(x, y, radius + 11, 0, Math.PI * 2);
+      ctx.fillStyle = `${node.color}24`;
       ctx.fill();
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.shadowColor = node.color;
+      ctx.shadowBlur = 18;
       ctx.fillStyle = node.color;
       ctx.fill();
+      ctx.shadowBlur = 0;
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "#1C2430";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.72)";
       ctx.stroke();
       ctx.fillStyle = "#FFFFFF";
-      ctx.font = "800 12px Inter, sans-serif";
+      ctx.font = "800 14px Manrope, Inter, sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(node.label, x, y + 0.5);
@@ -731,7 +781,7 @@ function initSignalCanvas() {
 
 function initReveal() {
   const elements = document.querySelectorAll(
-    ".section-heading, .agent-grid article, .method-timeline, .chart-card, .model-table-wrap, fieldset, .form-actions, .share-panel, .table-shell, .source-list article",
+    ".section-heading, .overview-grid article, .work-grid article, .workflow-preview div, .agent-grid article, .method-timeline, .chart-card, .model-interpretation, .model-table-wrap, fieldset, .form-actions, .share-panel, .table-shell, .source-list article, .download-group",
   );
   elements.forEach((el) => el.classList.add("reveal"));
   if (!("IntersectionObserver" in window)) {
