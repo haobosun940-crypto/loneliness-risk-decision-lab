@@ -28,7 +28,7 @@ page.on("console", (msg) => {
 });
 page.on("pageerror", (error) => messages.push({ type: "pageerror", text: error.message }));
 
-const base = "http://127.0.0.1:8765";
+const base = (process.env.BASE_URL || "http://127.0.0.1:8765").replace(/\/$/, "");
 const routes = [
   ["home", "/"],
   ["survey", "/survey"],

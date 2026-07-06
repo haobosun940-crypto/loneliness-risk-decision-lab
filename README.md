@@ -53,6 +53,12 @@ http://localhost:8765/survey
 
 ## Public Deployment
 
+GitHub repository:
+
+```text
+https://github.com/haobosun940-crypto/loneliness-risk-decision-lab
+```
+
 This folder is ready for a Render web-service deployment through `render.yaml`.
 
 1. Push this project folder to a GitHub repository.
@@ -62,6 +68,12 @@ This folder is ready for a Render web-service deployment through `render.yaml`.
 
 ```text
 https://your-render-service.onrender.com/survey
+```
+
+Render Blueprint deeplink:
+
+```text
+https://dashboard.render.com/blueprint/new?repo=https://github.com/haobosun940-crypto/loneliness-risk-decision-lab
 ```
 
 The default Render free deployment stores live submissions in SQLite on the service filesystem. This is acceptable for a demo, but filesystem data can be lost on rebuilds. For a longer real data-collection run, upgrade the service to a paid plan with a persistent disk and set:
