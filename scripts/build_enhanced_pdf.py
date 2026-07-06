@@ -180,6 +180,7 @@ def build_pdf() -> None:
     stats = load_json("stats_summary.json")
     sources = load_json("sources.json")
     config = load_json("study_config.json")
+    links = load_json("publication_links.json")
     df = pd.read_csv(DATA_DIR / "synthetic_participants.csv")
 
     styles = build_styles()
@@ -202,7 +203,7 @@ def build_pdf() -> None:
     )
     story.append(
         p(
-            "Author format: student research system prototype. Data status: synthetic pilot sample plus separated live submissions. Website component: public questionnaire, scoring algorithm, SQLite database, dashboard, QR link, workbook, slide deck, and video script.",
+            "Author format: student research system prototype. Data status: synthetic pilot sample plus separated live submissions. Website component: public questionnaire, scoring algorithm, SQLite database, dashboard, QR link, PDF paper, Word report, workbook, slide deck, and video script.",
             styles["BodySmall"],
         )
     )
@@ -417,7 +418,35 @@ def build_pdf() -> None:
         )
     )
 
-    story.append(rich("12. Applications", styles["Section"]))
+    story.append(rich("12. Public Website, Repository, and Deployment", styles["Section"]))
+    story.append(
+        p(
+            "The research now has a public-facing distribution layer. The temporary tunnel lets classmates open the questionnaire from outside the local network while the local Python server writes responses into the same SQLite-backed data pipeline. The GitHub repository provides source transparency, reproducibility, and a path for Render deployment. A permanent Render deployment should replace the temporary tunnel for longer data collection because the trycloudflare address is session-based and can change when the tunnel is restarted.",
+            styles["Body"],
+        )
+    )
+    add_table(
+        story,
+        [
+            ["Artifact", "Link or role"],
+            ["Current public site", links["current_public_site"]],
+            ["Current public survey", links["current_public_survey"]],
+            ["GitHub repository", links["github_repository"]],
+            ["Render Blueprint", links["render_blueprint"]],
+            ["Expected permanent survey", links["render_expected_survey"]],
+        ],
+        [1.8 * inch, 5.0 * inch],
+        header="#0F766E",
+        font_size=8.0,
+    )
+    story.append(
+        p(
+            "Operationally, the current public survey link is useful for immediate classroom collection. For a research presentation or competition submission, the recommended public URL is the Render deployment once it is live. In both cases, the website route is /survey, while /dashboard shows the live database preview, CSV export, and statistical cockpit.",
+            styles["Body"],
+        )
+    )
+
+    story.append(rich("13. Applications", styles["Section"]))
     story.append(
         p(
             "The project can be used as a classroom research demonstration, a student social-science presentation, a prototype for a larger survey, or a methodological example of how to transform a broad psychological topic into a measurable statistical design. The most practical application is not to label individuals as risky, but to show how social connection may shape decision environments. If live data eventually confirm the pattern, interventions might focus on strengthening belonging, increasing trusted contacts, and improving conflict clarification before high-stakes choices are made.",
@@ -425,7 +454,7 @@ def build_pdf() -> None:
         )
     )
 
-    story.append(rich("13. Limitations", styles["Section"]))
+    story.append(rich("14. Limitations", styles["Section"]))
     limitations = [
         "Synthetic pilot data cannot establish real-world prevalence or causal effects.",
         "Self-report items may be affected by social desirability and momentary mood.",
@@ -436,7 +465,7 @@ def build_pdf() -> None:
     for item in limitations:
         story.append(rich(f"- {escape(item)}", styles["Body"]))
 
-    story.append(rich("14. Conclusion", styles["Section"]))
+    story.append(rich("15. Conclusion", styles["Section"]))
     story.append(
         p(
             "This study demonstrates a complete psychology-and-statistics research pipeline for the question of how loneliness may change risk decision making. The key contribution is not only the written argument but the integrated system: a bounded research question, operationalized measures, a database, a questionnaire, a scoring model, visualizations, and a paper-style analysis. In the synthetic pilot, loneliness is positively associated with the Risk Decision Index, social connectedness is negatively associated with it, and ANOVA shows clear group separation across loneliness tertiles. The next scientific step is to collect real responses through the public website, preserve the separation between synthetic and live data, and rerun the same reliability, ANOVA, correlation, and regression analyses on the live sample.",

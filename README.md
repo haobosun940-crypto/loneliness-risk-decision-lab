@@ -16,6 +16,7 @@ This project is an English, full-stack research package for the question:
 
 - Website and API: `server.py`, `static/`, SQLite database in `data/loneliness_risk.db`
 - Paper-style PDF: `outputs/loneliness_risk_research_paper.pdf`
+- Editable Word report: `outputs/loneliness_risk_research_report.docx`
 - Excel workbook: `outputs/loneliness_risk_research_workbook.xlsx`
 - Presentation deck: `outputs/loneliness_risk_research_deck.pptx`
 - Narrated video: `outputs/loneliness_risk_intro_video.mp4`
@@ -48,7 +49,7 @@ http://localhost:8765/survey
 - `/dashboard` - live database preview, QR code, CSV export, and statistical cockpit
 - `/research` - research workflow, model outputs, ANOVA, OLS, and interpretation
 - `/evidence` - construct-by-construct literature and public-data sources
-- `/downloads` - PDF paper, PPTX deck, XLSX workbook, video, CSV export, and full package
+- `/downloads` - PDF paper, Word report, PPTX deck, XLSX workbook, video, CSV export, and full package
 - `/contact` - FAQ and project contact information
 
 ## Public Deployment

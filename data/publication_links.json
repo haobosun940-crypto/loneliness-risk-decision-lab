@@ -1,0 +1,11 @@
+{
+  "current_public_site": "https://taste-empire-come-advancement.trycloudflare.com",
+  "current_public_survey": "https://taste-empire-come-advancement.trycloudflare.com/survey",
+  "github_repository": "https://github.com/haobosun940-crypto/loneliness-risk-decision-lab",
+  "render_blueprint": "https://dashboard.render.com/blueprint/new?repo=https://github.com/haobosun940-crypto/loneliness-risk-decision-lab",
+  "render_expected_survey": "https://loneliness-risk-decision-lab.onrender.com/survey",
+  "local_site": "http://127.0.0.1:8765",
+  "local_survey": "http://127.0.0.1:8765/survey",
+  "last_verified": "2026-07-06",
+  "note": "The trycloudflare.com URL is a live temporary tunnel. Use the Render URL after permanent deployment."
+}

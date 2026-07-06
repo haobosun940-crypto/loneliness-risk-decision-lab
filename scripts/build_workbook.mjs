@@ -75,6 +75,7 @@ async function main() {
   const stats = JSON.parse(await fs.readFile(path.join(dataDir, "stats_summary.json"), "utf8"));
   const sources = JSON.parse(await fs.readFile(path.join(dataDir, "sources.json"), "utf8"));
   const config = JSON.parse(await fs.readFile(path.join(dataDir, "study_config.json"), "utf8"));
+  const links = JSON.parse(await fs.readFile(path.join(dataDir, "publication_links.json"), "utf8"));
   const stata = await fs.readFile(path.join(dataDir, "stata_analysis.do"), "utf8");
 
   const workbook = Workbook.create();
@@ -85,9 +86,10 @@ async function main() {
   const corrSheet = workbook.worksheets.add("Correlation Matrix");
   const sourcesSheet = workbook.worksheets.add("Sources");
   const questionnaire = workbook.worksheets.add("Questionnaire");
+  const linksSheet = workbook.worksheets.add("Publication Links");
   const stataSheet = workbook.worksheets.add("Stata Notes");
 
-  for (const sheet of [dashboard, raw, processed, models, corrSheet, sourcesSheet, questionnaire, stataSheet]) {
+  for (const sheet of [dashboard, raw, processed, models, corrSheet, sourcesSheet, questionnaire, linksSheet, stataSheet]) {
     sheet.showGridLines = false;
   }
 
@@ -148,6 +150,21 @@ async function main() {
   styleHeader(dashboard.getRange("A11:B11"), "#B23A48");
   styleTable(dashboard.getRange("A11:B15"));
   dashboard.getRange("B12:B15").format.numberFormat = "0.000";
+
+  dashboard.getRange("A18:B24").values = [
+    ["Publication link", "URL or note"],
+    ["Current public survey", links.current_public_survey],
+    ["Current public site", links.current_public_site],
+    ["GitHub repository", links.github_repository],
+    ["Render Blueprint", links.render_blueprint],
+    ["Expected permanent survey", links.render_expected_survey],
+    ["Link status", links.note],
+  ];
+  styleHeader(dashboard.getRange("A18:B18"), "#0F766E");
+  styleTable(dashboard.getRange("A18:B24"));
+  dashboard.getRange("B18:B24").format.wrapText = true;
+  dashboard.getRange("A18:A24").format.columnWidthPx = 190;
+  dashboard.getRange("B18:B24").format.columnWidthPx = 440;
 
   raw.getRange(rangeAddress(1, 1, rawRows.length, headers.length)).values = [headers, ...body];
   styleHeader(raw.getRange(rangeAddress(1, 1, 1, headers.length)), "#1C2430");
@@ -247,6 +264,24 @@ async function main() {
   questionnaire.getRange("B:B").format.wrapText = true;
   questionnaire.getRange("A1:B40").format.autofitColumns();
 
+  const linkRows = [
+    ["Asset", "URL", "Use"],
+    ["Current public site", links.current_public_site, "Public homepage while the local server and tunnel remain running."],
+    ["Current public survey", links.current_public_survey, "Share this with classmates for immediate survey collection."],
+    ["GitHub repository", links.github_repository, "Source code, outputs, and reproducibility record."],
+    ["Render Blueprint", links.render_blueprint, "Permanent deployment setup for a stable public link."],
+    ["Expected permanent survey", links.render_expected_survey, "Use this route after Render deployment is live."],
+    ["Local survey", links.local_survey, "Local development and classroom demo on the same machine."],
+    ["Verification date", links.last_verified, "Last checked by the project build workflow."],
+  ];
+  linksSheet.getRange(rangeAddress(1, 1, linkRows.length, 3)).values = linkRows;
+  styleHeader(linksSheet.getRange("A1:C1"), "#0F766E");
+  styleTable(linksSheet.getRange(rangeAddress(1, 1, linkRows.length, 3)));
+  linksSheet.getRange("B:C").format.wrapText = true;
+  linksSheet.getRange("A1:A20").format.columnWidthPx = 190;
+  linksSheet.getRange("B1:B20").format.columnWidthPx = 460;
+  linksSheet.getRange("C1:C20").format.columnWidthPx = 380;
+
   const stataLines = [["Line", "Command"]].concat(stata.split(/\r?\n/).map((line, i) => [i + 1, line]));
   stataSheet.getRange(rangeAddress(1, 1, stataLines.length, 2)).values = stataLines;
   styleHeader(stataSheet.getRange("A1:B1"), "#B23A48");
@@ -270,7 +305,7 @@ async function main() {
   });
   console.log(errors.ndjson);
 
-  for (const name of ["Dashboard", "Synthetic Raw", "Processed Scores", "Model Results", "Correlation Matrix", "Sources", "Questionnaire", "Stata Notes"]) {
+  for (const name of ["Dashboard", "Synthetic Raw", "Processed Scores", "Model Results", "Correlation Matrix", "Sources", "Questionnaire", "Publication Links", "Stata Notes"]) {
     const preview = await workbook.render({ sheetName: name, autoCrop: "all", scale: 1, format: "png" });
     await writeBlob(path.join(previewDir, `${name.replaceAll(" ", "_")}.png`), preview);
   }
