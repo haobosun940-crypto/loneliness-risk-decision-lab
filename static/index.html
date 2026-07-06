@@ -8,11 +8,18 @@
       name="description"
       content="A full-stack psychology and statistics research system for measuring loneliness, social connection, and risk decision patterns."
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/static/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   </head>
   <body>
+    <canvas id="ambientCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
     <header class="topbar">
       <div class="brand">
         <span class="brand-mark"></span>
@@ -49,6 +56,12 @@
           <p class="lead" data-i18n="lead">
             A brighter research interface for testing how social connection predicts immediate rewards, impulsive spending, risky choices, and conflict-response style.
           </p>
+          <div class="research-rail" aria-label="Live study route">
+            <span><i data-lucide="mouse-pointer-click"></i> Survey</span>
+            <span><i data-lucide="server"></i> API</span>
+            <span><i data-lucide="database-zap"></i> SQLite</span>
+            <span><i data-lucide="chart-no-axes-combined"></i> Models</span>
+          </div>
           <div class="news-strip" aria-label="Research context">
             <a href="https://www.hhs.gov/sites/default/files/surgeon-general-social-connection-advisory.pdf" target="_blank" rel="noreferrer">
               <span>Public health</span><strong>Social connection is now treated as a population-level concern.</strong>
@@ -116,6 +129,39 @@
             <summary><span data-i18n="openStatistics">Open statistics</span><i data-lucide="plus"></i></summary>
             <canvas id="groupChart" height="210" aria-label="Risk index by loneliness group"></canvas>
           </details>
+        </div>
+      </section>
+
+      <section class="launch-console page-section" data-pages="home research dashboard">
+        <div class="console-head">
+          <p class="eyebrow">Operational research OS</p>
+          <h2>One public interface connects participation, scoring, evidence, and exportable research assets.</h2>
+        </div>
+        <div class="console-grid">
+          <a class="launch-card" href="/survey">
+            <i data-lucide="clipboard-check"></i>
+            <span>01</span>
+            <strong>Participant test</strong>
+            <p>Separate survey route with instant personal profile and optional saved response.</p>
+          </a>
+          <a class="launch-card" href="/dashboard">
+            <i data-lucide="radar"></i>
+            <span>02</span>
+            <strong>Live database cockpit</strong>
+            <p>QR sharing, SQLite preview, CSV export, and current live submission counts.</p>
+          </a>
+          <a class="launch-card" href="/research">
+            <i data-lucide="sigma"></i>
+            <span>03</span>
+            <strong>Statistical engine</strong>
+            <p>Reliability, ANOVA, OLS, decision types, and interpretable chart panels.</p>
+          </a>
+          <a class="launch-card" href="/downloads">
+            <i data-lucide="folder-down"></i>
+            <span>04</span>
+            <strong>Publication package</strong>
+            <p>PDF, Word, PPTX, Excel, video, CSV export, and full research zip.</p>
+          </a>
         </div>
       </section>
 

@@ -1468,6 +1468,602 @@ footer {
   font-size: 13px;
 }
 
+/* Product Design refresh: bright research OS, motion layer, and cockpit polish */
+:root {
+  --ink: #0b1726;
+  --muted: #607086;
+  --paper: #f7fbff;
+  --surface: rgba(255, 255, 255, 0.9);
+  --glass: rgba(255, 255, 255, 0.72);
+  --line: #d8e5f2;
+  --line-strong: #91aed0;
+  --teal: #0fbaa7;
+  --blue: #2764ff;
+  --red: #e63f66;
+  --gold: #f4a21a;
+  --green: #20b970;
+  --violet: #6f52ff;
+  --cyan: #2abdf5;
+  --steel: #b8c7d9;
+  --shadow: 0 22px 60px rgba(39, 100, 255, 0.13);
+  --shadow-deep: 0 36px 110px rgba(11, 23, 38, 0.17);
+  --glow: 0 0 42px rgba(42, 189, 245, 0.24);
+}
+
+body {
+  font-family: "IBM Plex Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.9), rgba(237, 248, 255, 0.94) 45%, rgba(255, 255, 255, 0.9)),
+    linear-gradient(rgba(39, 100, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(39, 100, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(15, 186, 167, 0.08), rgba(244, 162, 26, 0.045));
+  background-size: auto, 42px 42px, 42px 42px, auto;
+  overflow-x: hidden;
+}
+
+.ambient-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.68;
+  mix-blend-mode: multiply;
+}
+
+.topbar,
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  min-height: 82px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 252, 255, 0.86)),
+    linear-gradient(90deg, rgba(39, 100, 255, 0.08), transparent 45%, rgba(15, 186, 167, 0.08));
+  border-bottom: 1px solid rgba(145, 174, 208, 0.46);
+  box-shadow: 0 12px 44px rgba(11, 23, 38, 0.08);
+}
+
+.brand strong,
+h1,
+h2,
+h3,
+.download-card strong,
+.launch-card strong,
+.metric strong {
+  font-family: "Manrope", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+.brand-mark {
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid rgba(11, 23, 38, 0.72);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.45), transparent 38%),
+    conic-gradient(from 210deg, #2abdf5, #0fbaa7, #f4a21a, #e63f66, #2764ff, #2abdf5);
+  overflow: hidden;
+  animation: prismShift 9s linear infinite;
+}
+
+.brand-mark::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 5px;
+}
+
+nav {
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(145, 174, 208, 0.42);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+nav a {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  border-radius: 6px;
+}
+
+nav a:hover,
+nav a.is-active {
+  border-bottom-color: transparent;
+  background: rgba(39, 100, 255, 0.08);
+}
+
+nav a.is-active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--blue), #168fdb);
+  box-shadow: 0 10px 22px rgba(39, 100, 255, 0.22);
+}
+
+.top-start-button,
+.primary-action,
+.secondary-action,
+.icon-button {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.top-start-button::after,
+.primary-action::after,
+.secondary-action::after,
+.icon-button::after,
+.download-card::before,
+.news-strip a::before,
+.contact-card::before {
+  background: linear-gradient(108deg, transparent 34%, rgba(255, 255, 255, 0.88) 48%, transparent 62%);
+}
+
+.top-start-button,
+.primary-action {
+  background:
+    linear-gradient(135deg, #2764ff 0%, #12a7e8 50%, #0fbaa7 100%);
+  border-color: rgba(39, 100, 255, 0.9);
+}
+
+.secondary-action,
+.icon-button {
+  background: rgba(255, 255, 255, 0.86);
+  border-color: rgba(145, 174, 208, 0.72);
+}
+
+.hero-grid {
+  min-height: calc(100vh - 82px);
+  padding-top: clamp(48px, 6vw, 78px);
+  padding-bottom: clamp(54px, 7vw, 86px);
+  overflow: hidden;
+}
+
+.hero-grid::after {
+  background:
+    linear-gradient(90deg, rgba(247, 251, 255, 0.96) 0%, rgba(247, 251, 255, 0.9) 44%, rgba(247, 251, 255, 0.55) 100%),
+    linear-gradient(118deg, transparent 10%, rgba(255, 255, 255, 0.62) 38%, transparent 63%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.25), transparent 54%);
+}
+
+.hero-grid::before {
+  height: 8px;
+  background: linear-gradient(90deg, var(--cyan), var(--teal), var(--gold), var(--red), var(--blue));
+  animation: colorRun 7s ease-in-out infinite alternate;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-status {
+  border-radius: 8px;
+  border-color: rgba(39, 100, 255, 0.2);
+  box-shadow: 0 14px 30px rgba(39, 100, 255, 0.08);
+}
+
+h1 {
+  max-width: 860px;
+  font-size: clamp(48px, 5.9vw, 86px);
+  line-height: 1;
+}
+
+h2 {
+  font-size: clamp(31px, 4vw, 56px);
+}
+
+.lead {
+  max-width: 760px;
+  color: #4f6177;
+}
+
+.research-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 820px;
+  margin-top: 24px;
+}
+
+.research-rail span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 12px;
+  color: #12314d;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(145, 174, 208, 0.55);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(39, 100, 255, 0.08);
+}
+
+.research-rail svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+
+.news-strip a,
+.hypothesis-panel,
+.formula-strip,
+.dashboard-panel,
+.pulse-grid article,
+.launch-card,
+.chart-card,
+.model-table-wrap,
+fieldset,
+.share-panel,
+.table-shell,
+.source-list article,
+.faq-list details,
+.contact-card,
+.download-card,
+.report-output {
+  border-radius: 8px;
+}
+
+.news-strip a,
+.pulse-grid article,
+.launch-card,
+.download-card,
+.source-list article,
+.faq-list details,
+.contact-card {
+  isolation: isolate;
+}
+
+.news-strip a::after,
+.pulse-grid article::before,
+.launch-card::after,
+.download-card::after,
+.source-list article::before,
+.faq-list details::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 0%), rgba(42, 189, 245, 0.16), transparent 42%);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.news-strip a:hover::after,
+.pulse-grid article:hover::before,
+.launch-card:hover::after,
+.download-card:hover::after,
+.source-list article:hover::before,
+.faq-list details:hover::before {
+  opacity: 1;
+}
+
+.hypothesis-panel {
+  border-color: rgba(11, 23, 38, 0.82);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(244, 250, 255, 0.9)),
+    linear-gradient(90deg, rgba(39, 100, 255, 0.08), transparent);
+}
+
+.formula-strip {
+  overflow: hidden;
+  border-color: rgba(11, 23, 38, 0.84);
+}
+
+.formula-strip span {
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.formula-strip span:nth-child(1) {
+  color: var(--teal);
+}
+
+.formula-strip span:nth-child(2) {
+  color: var(--blue);
+}
+
+.formula-strip span:nth-child(3) {
+  color: var(--red);
+}
+
+.formula-strip span:nth-child(4) {
+  color: var(--gold);
+}
+
+.formula-strip span:nth-child(5) {
+  color: var(--green);
+}
+
+.lab-cockpit {
+  border-color: rgba(11, 23, 38, 0.75);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(245, 251, 255, 0.9)),
+    linear-gradient(135deg, rgba(39, 100, 255, 0.08), rgba(15, 186, 167, 0.06));
+}
+
+.signal-stage {
+  border-radius: 8px;
+  background:
+    linear-gradient(rgba(39, 100, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(39, 100, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(235, 247, 255, 0.92));
+  background-size: 26px 26px, 26px 26px, auto;
+}
+
+.signal-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.52), transparent);
+  transform: translateY(-120%);
+  animation: scanStage 6.5s linear infinite;
+  pointer-events: none;
+}
+
+.signal-card {
+  border-radius: 8px;
+  border-color: rgba(11, 23, 38, 0.78);
+}
+
+.launch-console {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(11, 23, 38, 0.96), rgba(17, 47, 78, 0.94)),
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: auto, 36px 36px, 36px 36px;
+  color: #fff;
+  border-bottom: 1px solid rgba(145, 174, 208, 0.35);
+}
+
+.launch-console::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(110deg, transparent 0%, rgba(42, 189, 245, 0.14) 38%, transparent 56%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 45%);
+  transform: translateX(-12%);
+  animation: consoleSweep 10s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.console-head,
+.console-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.console-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.console-head h2 {
+  max-width: 960px;
+}
+
+.launch-console .eyebrow {
+  color: #81e6d9;
+}
+
+.console-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.launch-card {
+  position: relative;
+  min-height: 252px;
+  padding: 22px;
+  color: #fff;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(216, 229, 242, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 18px 42px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  transition: transform 190ms ease, border-color 190ms ease, background 190ms ease;
+}
+
+.launch-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(129, 230, 217, 0.72);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.launch-card svg {
+  width: 28px;
+  height: 28px;
+  color: #81e6d9;
+}
+
+.launch-card span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: rgba(255, 255, 255, 0.32);
+  font-family: "Manrope", sans-serif;
+  font-size: 38px;
+  font-weight: 800;
+}
+
+.launch-card strong {
+  display: block;
+  margin-top: 56px;
+  font-size: 22px;
+  line-height: 1.18;
+}
+
+.launch-card p {
+  margin: 14px 0 0;
+  color: rgba(238, 247, 255, 0.78);
+  line-height: 1.5;
+}
+
+.research-pulse,
+.analysis-layout,
+.downloads,
+.faq-contact,
+.data-lab {
+  position: relative;
+  overflow: hidden;
+}
+
+.pulse-grid article,
+.source-list article,
+.faq-list details {
+  position: relative;
+  overflow: hidden;
+}
+
+.pulse-grid article {
+  border-color: rgba(39, 100, 255, 0.14);
+}
+
+.agent-grid {
+  border-radius: 8px;
+  overflow: hidden;
+  border-color: rgba(11, 23, 38, 0.75);
+}
+
+.agent-grid article {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(245, 251, 255, 0.9));
+}
+
+.method-timeline {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.method-timeline div {
+  background: linear-gradient(145deg, #ffffff, #f3faff);
+}
+
+.analysis-layout {
+  background:
+    linear-gradient(120deg, rgba(39, 100, 255, 0.08), rgba(15, 186, 167, 0.08)),
+    linear-gradient(rgba(39, 100, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(39, 100, 255, 0.04) 1px, transparent 1px),
+    #eef9ff;
+  background-size: auto, 34px 34px, 34px 34px, auto;
+}
+
+.chart-card,
+.model-table-wrap,
+.table-shell,
+.report-output {
+  box-shadow: 0 20px 56px rgba(39, 100, 255, 0.1);
+}
+
+fieldset {
+  border-color: rgba(11, 23, 38, 0.78);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(246, 251, 255, 0.92)),
+    linear-gradient(90deg, rgba(15, 186, 167, 0.06), transparent 45%);
+}
+
+input,
+select,
+.choice-buttons button {
+  border-radius: 6px;
+}
+
+input:focus,
+select:focus {
+  box-shadow: 0 0 0 4px rgba(39, 100, 255, 0.13);
+}
+
+.choice-buttons button.active {
+  background: linear-gradient(135deg, var(--blue), #168fdb);
+}
+
+.bar-track {
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.downloads {
+  background:
+    linear-gradient(135deg, rgba(39, 100, 255, 0.09), rgba(15, 186, 167, 0.08)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.86), rgba(238, 249, 255, 0.88));
+}
+
+.download-card {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(246, 251, 255, 0.9)),
+    linear-gradient(135deg, rgba(39, 100, 255, 0.08), transparent);
+}
+
+.download-card:nth-child(2n) svg {
+  color: var(--teal);
+}
+
+.download-card:nth-child(3n) svg {
+  color: var(--gold);
+}
+
+.download-card:nth-child(4n) svg {
+  color: var(--red);
+}
+
+.faq-list details[open] {
+  border-color: rgba(39, 100, 255, 0.38);
+  box-shadow: 0 22px 60px rgba(39, 100, 255, 0.13);
+}
+
+footer {
+  background:
+    linear-gradient(135deg, #07111f, #102c46),
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+@keyframes prismShift {
+  from {
+    filter: hue-rotate(0deg) saturate(1.1);
+  }
+  to {
+    filter: hue-rotate(360deg) saturate(1.1);
+  }
+}
+
+@keyframes colorRun {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(28deg);
+  }
+}
+
+@keyframes scanStage {
+  0% {
+    transform: translateY(-120%);
+  }
+  100% {
+    transform: translateY(120%);
+  }
+}
+
+@keyframes consoleSweep {
+  from {
+    transform: translateX(-16%);
+  }
+  to {
+    transform: translateX(16%);
+  }
+}
+
 .reveal {
   opacity: 1;
   transform: translateY(0);
@@ -1533,6 +2129,7 @@ footer {
   .method-timeline,
   .news-strip,
   .pulse-grid,
+  .console-grid,
   .download-grid,
   .source-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1546,18 +2143,38 @@ footer {
 @media (max-width: 760px) {
   .topbar {
     position: static;
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
+    gap: 14px;
+  }
+
+  .brand {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .brand small {
+    max-width: 100%;
   }
 
   nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
-    justify-content: flex-start;
-    overflow-x: auto;
+    gap: 6px;
+    overflow: visible;
+  }
+
+  nav a {
+    width: 100%;
+    justify-content: center;
+    padding: 9px 6px;
+    font-size: 12px;
+    text-align: center;
   }
 
   h1 {
-    font-size: 46px;
+    font-size: 42px;
   }
 
   .formula-strip,
@@ -1567,6 +2184,7 @@ footer {
   .method-timeline,
   .news-strip,
   .pulse-grid,
+  .console-grid,
   .form-grid,
   .likert-grid,
   .task-grid,
@@ -1601,6 +2219,19 @@ footer {
 
   .top-start-button {
     width: 100%;
+  }
+
+  .research-rail {
+    gap: 8px;
+  }
+
+  .research-rail span {
+    flex: 1 1 145px;
+    justify-content: center;
+  }
+
+  .launch-card {
+    min-height: 210px;
   }
 
   .signal-stage {

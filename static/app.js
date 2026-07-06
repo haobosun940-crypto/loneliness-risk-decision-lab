@@ -515,6 +515,132 @@ function animateNumber(selector, target, decimals = 0) {
   requestAnimationFrame(tick);
 }
 
+function initAmbientCanvas() {
+  const canvas = document.querySelector("#ambientCanvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const pointer = { x: 0.5, y: 0.25, active: false };
+  let particles = [];
+
+  function resize() {
+    const ratio = window.devicePixelRatio || 1;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    canvas.width = Math.max(1, Math.floor(width * ratio));
+    canvas.height = Math.max(1, Math.floor(height * ratio));
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    const count = Math.max(34, Math.min(78, Math.floor((width * height) / 26000)));
+    particles = Array.from({ length: count }, (_, index) => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * (0.12 + (index % 5) * 0.015),
+      vy: (Math.random() - 0.5) * (0.12 + (index % 7) * 0.012),
+      r: 1.1 + Math.random() * 1.8,
+      hue: index % 4,
+      phase: Math.random() * Math.PI * 2,
+    }));
+    draw(0);
+  }
+
+  function colorFor(particle, alpha) {
+    const colors = [
+      `rgba(39, 100, 255, ${alpha})`,
+      `rgba(15, 186, 167, ${alpha})`,
+      `rgba(42, 189, 245, ${alpha})`,
+      `rgba(244, 162, 26, ${alpha})`,
+    ];
+    return colors[particle.hue];
+  }
+
+  function draw(time = 0) {
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    ctx.clearRect(0, 0, width, height);
+    ctx.lineWidth = 1;
+
+    particles.forEach((particle, i) => {
+      if (!reduceMotion) {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        const drift = Math.sin(time / 1800 + particle.phase) * 0.12;
+        particle.x += drift;
+        if (particle.x < -20) particle.x = width + 20;
+        if (particle.x > width + 20) particle.x = -20;
+        if (particle.y < -20) particle.y = height + 20;
+        if (particle.y > height + 20) particle.y = -20;
+      }
+
+      for (let j = i + 1; j < particles.length; j += 1) {
+        const other = particles[j];
+        const dx = particle.x - other.x;
+        const dy = particle.y - other.y;
+        const distance = Math.hypot(dx, dy);
+        if (distance > 132) continue;
+        const alpha = (1 - distance / 132) * 0.18;
+        ctx.beginPath();
+        ctx.moveTo(particle.x, particle.y);
+        ctx.lineTo(other.x, other.y);
+        ctx.strokeStyle = colorFor(particle, alpha);
+        ctx.stroke();
+      }
+
+      if (pointer.active) {
+        const px = pointer.x * width;
+        const py = pointer.y * height;
+        const distance = Math.hypot(particle.x - px, particle.y - py);
+        if (distance < 180) {
+          ctx.beginPath();
+          ctx.moveTo(particle.x, particle.y);
+          ctx.lineTo(px, py);
+          ctx.strokeStyle = `rgba(39, 100, 255, ${(1 - distance / 180) * 0.16})`;
+          ctx.stroke();
+        }
+      }
+
+      ctx.beginPath();
+      ctx.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+      ctx.fillStyle = colorFor(particle, 0.38);
+      ctx.fill();
+    });
+
+    if (!reduceMotion) requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("pointermove", (event) => {
+    pointer.x = event.clientX / window.innerWidth;
+    pointer.y = event.clientY / window.innerHeight;
+    pointer.active = true;
+  }, { passive: true });
+  window.addEventListener("pointerleave", () => {
+    pointer.active = false;
+  });
+  resize();
+}
+
+function initPointerSpotlight() {
+  const selectors = [
+    ".news-strip a",
+    ".pulse-grid article",
+    ".launch-card",
+    ".download-card",
+    ".source-list article",
+    ".faq-list details",
+  ].join(",");
+  document.querySelectorAll(selectors).forEach((element) => {
+    element.addEventListener("pointermove", (event) => {
+      const rect = element.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      element.style.setProperty("--mx", `${x}%`);
+      element.style.setProperty("--my", `${y}%`);
+    }, { passive: true });
+  });
+}
+
 function initSignalCanvas() {
   const canvas = document.querySelector("#signalCanvas");
   if (!canvas) return;
@@ -821,6 +947,8 @@ async function boot() {
   initDetailsCharts();
   initTestRouting();
   if (window.lucide) window.lucide.createIcons();
+  initAmbientCanvas();
+  initPointerSpotlight();
   initSignalCanvas();
   initReveal();
   applyRoute();
