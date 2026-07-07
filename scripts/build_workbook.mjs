@@ -65,6 +65,7 @@ async function main() {
 
   const rawRows = parseCsv(await fs.readFile(path.join(dataDir, "synthetic_participants.csv"), "utf8"));
   const headers = rawRows[0];
+  const displayHeaders = headers.map((header) => (header === "participant_id" ? "participant_name" : header));
   const body = rawRows.slice(1).map((row) =>
     row.map((value) => {
       if (value === "") return null;
@@ -166,13 +167,13 @@ async function main() {
   dashboard.getRange("A18:A24").format.columnWidthPx = 190;
   dashboard.getRange("B18:B24").format.columnWidthPx = 440;
 
-  raw.getRange(rangeAddress(1, 1, rawRows.length, headers.length)).values = [headers, ...body];
+  raw.getRange(rangeAddress(1, 1, rawRows.length, displayHeaders.length)).values = [displayHeaders, ...body];
   styleHeader(raw.getRange(rangeAddress(1, 1, 1, headers.length)), "#1C2430");
   raw.freezePanes.freezeRows(1);
   raw.getRange(rangeAddress(1, 1, Math.min(rawRows.length, 60), headers.length)).format.autofitColumns();
 
   const processedHeaders = [
-    "participant_id",
+    "participant_name",
     "source_type",
     "age",
     "loneliness_score",
@@ -187,7 +188,7 @@ async function main() {
   ];
   processed.getRange(rangeAddress(1, 1, 1, processedHeaders.length)).values = [processedHeaders];
   styleHeader(processed.getRange(rangeAddress(1, 1, 1, processedHeaders.length)), "#2D6A6A");
-  const processedMap = processedHeaders.map((h) => idx(headers, h));
+  const processedMap = processedHeaders.map((h) => idx(headers, h === "participant_name" ? "participant_id" : h));
   const formulas = body.map((_, r) => processedMap.map((c) => `='Synthetic Raw'!${colName(c)}${r + 2}`));
   processed.getRange(rangeAddress(2, 1, body.length + 1, processedHeaders.length)).formulas = formulas;
   processed.freezePanes.freezeRows(1);

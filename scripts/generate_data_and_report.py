@@ -12,6 +12,7 @@ import csv
 import json
 import math
 import os
+import random
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
@@ -200,6 +201,26 @@ def scale_0_100(x: pd.Series | np.ndarray, min_value: float, max_value: float) -
     return (x - min_value) / (max_value - min_value) * 100
 
 
+def synthetic_participant_names(n: int) -> list[str]:
+    first_names = [
+        "Maya", "Ethan", "Sofia", "Liam", "Ava", "Noah", "Mia", "Lucas", "Chloe", "Leo",
+        "Grace", "Daniel", "Iris", "Owen", "Nora", "Kai", "Emma", "Julian", "Luna", "Miles",
+        "Hannah", "Aria", "Caleb", "Zoe", "Eli", "Leah", "Ryan", "Naomi", "Isaac", "Ella",
+        "Jasper", "Nina", "Theo", "Ruby", "Adrian", "Clara", "Felix", "Amelia", "Jonah", "Vivian",
+    ]
+    last_names = [
+        "Chen", "Rivera", "Morgan", "Patel", "Brooks", "Kim", "Santos", "Nguyen", "Reed", "Carter",
+        "Zhang", "Martinez", "Taylor", "Singh", "Lopez", "Wang", "Hughes", "Khan", "Bennett", "Ali",
+        "Park", "Garcia", "Turner", "Lin", "Walker", "Rossi", "Young", "Ibrahim", "Foster", "Tan",
+        "Murphy", "Shah", "Collins", "Mehta", "Gray", "Liu", "Torres", "Wilson", "Hassan", "Evans",
+    ]
+    names = [f"{first} {last}" for first in first_names for last in last_names]
+    random.Random(20260707).shuffle(names)
+    if n > len(names):
+        raise ValueError("Not enough synthetic participant names for requested sample size")
+    return names[:n]
+
+
 def generate_synthetic_data(n: int = 420) -> pd.DataFrame:
     age = RNG.choice(np.arange(16, 25), size=n, p=[0.08, 0.12, 0.16, 0.17, 0.15, 0.13, 0.09, 0.06, 0.04])
     gender = RNG.choice(["Female", "Male", "Nonbinary/Other", "Prefer not to say"], size=n, p=[0.49, 0.45, 0.03, 0.03])
@@ -219,7 +240,7 @@ def generate_synthetic_data(n: int = 420) -> pd.DataFrame:
     sleep_hours = np.clip(7.1 - 0.32 * latent_loneliness - 0.015 * stress + RNG.normal(0, 0.75, n), 4.2, 9.5)
 
     rows = {
-        "participant_id": [f"SYN-{i + 1:04d}" for i in range(n)],
+        "participant_id": synthetic_participant_names(n),
         "source_type": ["synthetic_pilot"] * n,
         "age": age,
         "gender": gender,

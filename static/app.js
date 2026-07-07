@@ -265,6 +265,159 @@ const taskText = {
   },
 };
 
+const staticTextDefaults = new WeakMap();
+const zhStaticCopy = {
+  "3 min test": "3 分钟测试",
+  "Survey + choices": "问卷 + 选择任务",
+  "Instant profile": "即时画像",
+  "Research use only": "仅用于研究展示",
+  "Public health": "公共健康",
+  "Social connection is now treated as a population-level concern.": "社交连接已被视为群体层面的公共健康议题。",
+  "Global lens": "全球视角",
+  "WHO frames social connection as a cross-country wellbeing issue.": "世界卫生组织将社交连接视为跨国家的福祉议题。",
+  "Youth data": "青少年数据",
+  "CDC youth surveys provide a benchmark for adolescent risk context.": "CDC 青少年调查为青少年风险行为背景提供参考。",
+  "Social psychology": "社会心理学",
+  "Ages 16-24": "16-24 岁",
+  "Loneliness": "孤独感",
+  "Risk Decision Index": "风险决策指数",
+  "Digital peer networks": "数字同伴网络",
+  "L": "L",
+  "S": "S",
+  "R": "R",
+  "C": "C",
+  "I": "I",
+  "Stress": "压力",
+  "Risk decision": "风险决策",
+  "Connection": "连接感",
+  "Impulsivity": "冲动性",
+  "Loneliness z": "孤独感 z",
+  "Connection z": "连接感 z",
+  "About this study": "关于本研究",
+  "A research-oriented behavioral assessment, not a clinical diagnosis.": "这是面向研究的行为评估，不是临床诊断。",
+  "Research question": "研究问题",
+  "Does loneliness change how people choose risk?": "孤独感会改变人们如何选择风险吗？",
+  "Primary focus: loneliness and social connection as predictors of immediate rewards, impulsive spending, high-risk choices, and conflict-defense responses.": "核心关注：孤独感和社交连接是否能预测即时奖励、冲动消费、高风险选择和冲突防御反应。",
+  "Measurement": "测量方式",
+  "Survey items + behavioral choice tasks": "问卷题项 + 行为选择任务",
+  "The test uses Likert batteries, social-signal inputs, delay choices, spending scenarios, risky options, and conflict-response sliders.": "测试包含李克特量表、社交信号输入、延迟选择、消费情境、风险选项和冲突反应滑块。",
+  "Boundary": "研究边界",
+  "Educational research tool only": "仅作为教育研究工具",
+  "Scores estimate a decision-profile index for research and class presentation. They are not mental-health diagnosis or clinical advice.": "分数用于估计研究和课堂展示中的决策画像指数，不是心理健康诊断或临床建议。",
+  "Operational research OS": "运行中的研究系统",
+  "One public interface connects participation, scoring, evidence, and exportable research assets.": "一个公开界面连接参与、评分、证据和可导出的研究材料。",
+  "Take the behavioral test": "完成行为测试",
+  "Open a focused survey route with social-signal questions and decision scenarios.": "进入独立问卷页面，完成社交信号问题和决策情境任务。",
+  "Generate personal scores": "生成个人分数",
+  "Receive standardized loneliness, connection, reward, spending, risk, and conflict indicators.": "获得孤独感、连接感、奖励、消费、风险和冲突指标的标准化分数。",
+  "Analyze group-level data": "分析群体数据",
+  "Use reliability checks, OLS, ANOVA, decision types, and chart panels for interpretation.": "使用信度检验、OLS、ANOVA、决策类型和图表面板进行解释。",
+  "Export research package": "导出研究包",
+  "Download the paper, Word report, slides, workbook, video, live CSV, and full package.": "下载论文、Word 报告、幻灯片、工作簿、视频、实时 CSV 和完整包。",
+  "How it works": "如何使用",
+  "Start with participation, end with interpretable research outputs.": "从参与测试开始，到可解释的研究输出结束。",
+  "Answer a short survey": "回答简短问卷",
+  "Social contact, digital behavior, loneliness, and connection are measured with numeric inputs and Likert items.": "用数字输入和李克特题项测量社交接触、数字行为、孤独感和连接感。",
+  "Complete decision scenarios": "完成决策情境",
+  "Delay choices, spending choices, risky options, and conflict responses turn abstract psychology into behavioral data.": "延迟选择、消费选择、风险选项和冲突反应把抽象心理变量转化为行为数据。",
+  "Receive standardized scores": "获得标准化分数",
+  "The site returns 0-100 indicators and a decision-profile type that can be viewed immediately.": "网站会返回 0-100 指标和可立即查看的决策画像类型。",
+  "Export or analyze data": "导出或分析数据",
+  "Live submissions stay separate from synthetic pilot rows and can be exported for classroom or research analysis.": "真实提交与模拟试点数据分开保存，可导出用于课堂或研究分析。",
+  "Psychological mechanism": "心理机制",
+  "Perceived isolation can amplify social-threat monitoring and short-horizon emotion regulation.": "感知到的孤立可能增强社会威胁监测和短期情绪调节需求。",
+  "Behavioral measurement": "行为测量",
+  "Delay choices, spending items, risky options, and conflict scenarios turn the construct into data.": "延迟选择、消费题项、风险选项和冲突情境把概念转化为数据。",
+  "Statistical test": "统计检验",
+  "Regression and ANOVA estimate whether the loneliness-risk gradient survives controls.": "回归和 ANOVA 用来估计孤独感与风险之间的梯度是否在控制变量后仍然存在。",
+  "Survey Agent": "问卷 Agent",
+  "collects behavioral and self-report responses": "收集行为和自陈反应",
+  "Scoring Agent": "评分 Agent",
+  "converts answers into standardized indicators": "把答案转化为标准化指标",
+  "Analysis Agent": "分析 Agent",
+  "runs OLS, ANOVA, and reliability checks": "运行 OLS、ANOVA 和信度检验",
+  "Report Agent": "报告 Agent",
+  "generates downloadable research materials": "生成可下载研究材料",
+  "Question boundary": "问题边界",
+  "field + population + predictor + outcome + context": "领域 + 人群 + 自变量 + 结果 + 背景",
+  "Measurement": "测量",
+  "custom items + behavioral tasks": "自定义题项 + 行为任务",
+  "Modeling": "建模",
+  "alpha + correlation + OLS + logit + ANOVA": "alpha + 相关 + OLS + logit + ANOVA",
+  "Public study": "公开研究",
+  "website + QR + live submissions": "网站 + 二维码 + 实时提交",
+  "Interpretation": "解释",
+  "Term": "变量",
+  "Estimate": "估计值",
+  "p": "p 值",
+  "ANOVA F": "ANOVA F",
+  "Eta squared": "Eta 平方",
+  "Age": "年龄",
+  "Population": "人群",
+  "High school student": "高中生",
+  "Undergraduate student": "本科生",
+  "Early career adult": "职场早期成人",
+  "Other": "其他",
+  "Platform opens per day": "每天打开社交平台次数",
+  "Messages sent per day": "每天发送消息数",
+  "In-person conversations per week": "每周线下对话次数",
+  "Shared meals or social events per week": "每周共同用餐或社交活动次数",
+  "Group activities per month": "每月集体活动次数",
+  "Trusted contacts": "可信任联系人数量",
+  "Stress 0-100": "压力 0-100",
+  "Sleep hours": "睡眠小时数",
+  "Participant": "参与者",
+  "Source": "来源",
+  "Risk Index": "风险指数",
+  "Type": "类型",
+  "Research package": "研究材料包",
+  "Download the paper, Word report, deck, workbook, video, and data exports.": "下载论文、Word 报告、演示文稿、工作簿、视频和数据导出。",
+  "The project is structured as a reusable research-product template: public site, live survey, SQLite data pipeline, statistical report, and presentation assets.": "该项目被组织成可复用的研究产品模板：公开网站、实时问卷、SQLite 数据管线、统计报告和展示材料。",
+  "For participants": "面向参与者",
+  "Immediate profile and response copy for people taking the test.": "为测试参与者提供即时画像和回应数据副本。",
+  "Profile": "个人画像",
+  "Generate personal risk-decision profile": "生成个人风险决策画像",
+  "Web result · instant": "网页结果 · 即时",
+  "Live CSV": "实时 CSV",
+  "Current survey export": "当前问卷导出",
+  "CSV · live local data": "CSV · 本地实时数据",
+  "For researchers / instructors": "面向研究者 / 指导老师",
+  "Academic materials for explaining the design, data pipeline, models, and presentation logic.": "用于解释研究设计、数据管线、模型和展示逻辑的学术材料。",
+  "Paper PDF": "论文 PDF",
+  "Full academic research paper": "完整学术研究论文",
+  "Word report": "Word 报告",
+  "Editable DOCX research report": "可编辑 DOCX 研究报告",
+  "Slide deck": "演示文稿",
+  "Presentation-ready PPTX": "可直接展示的 PPTX",
+  "Workbook": "工作簿",
+  "Data tables and analysis sheets": "数据表和分析表",
+  "Intro video": "介绍视频",
+  "Research overview video": "研究概览视频",
+  "Full package": "完整包",
+  "All final deliverables": "所有最终交付文件",
+  "Questions people usually ask before taking the test.": "测试前常见问题。",
+  "Is this a psychological diagnosis?": "这是心理诊断吗？",
+  "No. The website is an educational research instrument. It estimates a decision-profile index and should not be used as clinical or mental-health diagnosis.": "不是。这个网站是教育研究工具，用来估计决策画像指数，不应作为临床或心理健康诊断。",
+  "How long does the test take?": "测试需要多久？",
+  "Most participants can finish in about three minutes. The survey combines short social-signal questions, loneliness and connection items, and brief decision scenarios.": "大多数参与者约 3 分钟可以完成。问卷包含社交信号问题、孤独感和连接感题项，以及简短决策情境。",
+  "Is my response anonymous?": "我的回答是匿名的吗？",
+  "The form does not ask for a name. Live submissions are stored on this server for research demonstration and CSV export, while synthetic pilot data remain clearly separated.": "表单不会询问姓名。实时提交会保存在本服务器用于研究展示和 CSV 导出，并与模拟试点数据明确分开。",
+  "Can I retake the test?": "我可以重新测试吗？",
+  "Yes. Retaking creates a new score. Use “Score without saving” if you want to see a profile without adding another live submission to the local database.": "可以。重新测试会生成新的分数。如果只想查看画像而不写入数据库，可以使用“仅评分不保存”。",
+  "What population is the study designed for?": "这项研究面向什么人群？",
+  "The primary target group is late adolescents and emerging adults, especially students and young adults in digitally mediated school or college communities.": "主要目标人群是青少年后期和新兴成年人，尤其是处在数字化学校或大学社群中的学生和年轻成人。",
+  "Why does the study measure social media behavior?": "为什么测量社交媒体行为？",
+  "What does the Risk Decision Index mean?": "风险决策指数是什么意思？",
+  "Are synthetic and live data mixed together?": "模拟数据和实时数据会混在一起吗？",
+  "Can this be used for a school research presentation?": "可以用于学校研究展示吗？",
+  "Project contact": "项目联系",
+  "Project lead": "项目负责人",
+  "Project type": "项目类型",
+  "Behavioral research prototype / class-ready lab product": "行为研究原型 / 可课堂展示的实验室产品",
+  "Data note": "数据说明",
+  "This public prototype is for educational research presentation; avoid submitting sensitive personal information.": "这个公开原型用于教育研究展示，请避免提交敏感个人信息。",
+};
+
 function t(key) {
   return i18n[appState.language][key] ?? i18n.en[key] ?? key;
 }
@@ -308,9 +461,46 @@ function applyLanguage() {
   if (languageLabel) languageLabel.textContent = appState.language === "en" ? "中文" : "EN";
   renderLikert();
   renderTasks();
+  applyStaticLanguage();
   if (appState.summary) renderCharts(appState.summary);
   if (window.lucide) window.lucide.createIcons();
   applyRoute();
+}
+
+function applyStaticLanguage() {
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+        if (parent.closest("script, style, canvas, [data-i18n], #likertGrid, #choiceTasks, #responsePreview tbody, #sourceList")) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return node.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      },
+    },
+  );
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach((node) => {
+    if (!staticTextDefaults.has(node)) staticTextDefaults.set(node, node.nodeValue);
+    const original = staticTextDefaults.get(node);
+    if (appState.language === "en") {
+      node.nodeValue = original;
+      return;
+    }
+    const key = original.trim().replace(/\s+/g, " ");
+    const translated = zhStaticCopy[key];
+    if (!translated) {
+      node.nodeValue = original;
+      return;
+    }
+    const leading = original.match(/^\s*/)?.[0] ?? "";
+    const trailing = original.match(/\s*$/)?.[0] ?? "";
+    node.nodeValue = `${leading}${translated}${trailing}`;
+  });
 }
 
 function renderLikert() {

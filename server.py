@@ -26,6 +26,19 @@ SEED_DB_PATH = DATA_DIR / "loneliness_risk.db"
 DB_PATH = Path(os.environ.get("LONELINESS_DB_PATH", str(SEED_DB_PATH)))
 PAGE_ROUTES = {"/", "/index.html", "/survey", "/dashboard", "/research", "/evidence", "/downloads", "/contact"}
 
+FIRST_NAMES = [
+    "Maya", "Ethan", "Sofia", "Liam", "Ava", "Noah", "Mia", "Lucas", "Chloe", "Leo",
+    "Grace", "Daniel", "Iris", "Owen", "Nora", "Kai", "Emma", "Julian", "Luna", "Miles",
+    "Hannah", "Aria", "Caleb", "Zoe", "Eli", "Leah", "Ryan", "Naomi", "Isaac", "Ella",
+    "Jasper", "Nina", "Theo", "Ruby", "Adrian", "Clara", "Felix", "Amelia", "Jonah", "Vivian",
+]
+LAST_NAMES = [
+    "Chen", "Rivera", "Morgan", "Patel", "Brooks", "Kim", "Santos", "Nguyen", "Reed", "Carter",
+    "Zhang", "Martinez", "Taylor", "Singh", "Lopez", "Wang", "Hughes", "Khan", "Bennett", "Ali",
+    "Park", "Garcia", "Turner", "Lin", "Walker", "Rossi", "Young", "Ibrahim", "Foster", "Tan",
+    "Murphy", "Shah", "Collins", "Mehta", "Gray", "Liu", "Torres", "Wilson", "Hassan", "Evans",
+]
+
 
 def mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
@@ -58,6 +71,12 @@ def binary_values(payload: dict, prefix: str, count: int) -> list[float]:
             except (TypeError, ValueError):
                 values.append(0.0)
     return values
+
+
+def display_participant_name(seed: int, prefix: str = "") -> str:
+    first = FIRST_NAMES[(seed * 7 + 3) % len(FIRST_NAMES)]
+    last = LAST_NAMES[(seed * 11 + 5) % len(LAST_NAMES)]
+    return f"{prefix}{first} {last}"
 
 
 def classify(scores: dict) -> str:
@@ -298,13 +317,18 @@ class Handler(BaseHTTPRequestHandler):
                     (limit,),
                 ).fetchall()
             ]
+            for row in live:
+                try:
+                    row["participant_id"] = display_participant_name(int(row["participant_id"]), "Live ")
+                except (TypeError, ValueError):
+                    row["participant_id"] = "Live Participant"
         return {"synthetic": synthetic, "live": live}
 
     def send_csv(self) -> None:
         rows = self.get_responses(limit=500)
         out = io.StringIO()
         fieldnames = [
-            "participant_id",
+            "participant_name",
             "source_type",
             "age",
             "gender",
@@ -324,7 +348,9 @@ class Handler(BaseHTTPRequestHandler):
         writer.writeheader()
         for source in ["synthetic", "live"]:
             for row in rows[source]:
-                writer.writerow({key: row.get(key, "") for key in fieldnames})
+                out_row = {key: row.get(key, "") for key in fieldnames}
+                out_row["participant_name"] = row.get("participant_id", "")
+                writer.writerow(out_row)
         content = out.getvalue().encode("utf-8")
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "text/csv; charset=utf-8")
