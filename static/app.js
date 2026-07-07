@@ -3,6 +3,28 @@ const appState = {
   config: null,
   summary: null,
   charts: {},
+  apiOnline: false,
+  apiBackendFailed: false,
+};
+
+const deployment = {
+  basePath: "",
+  apiBase: "",
+  staticApiBase: "",
+  publicSiteUrl: "",
+  preferStaticApi: false,
+  ...(window.LRDL_CONFIG || {}),
+};
+deployment.basePath = normalizeBasePath(deployment.basePath);
+deployment.apiBase = String(deployment.apiBase || "").replace(/\/$/, "");
+deployment.staticApiBase = String(deployment.staticApiBase || "").replace(/\/$/, "");
+deployment.publicSiteUrl = String(deployment.publicSiteUrl || "").replace(/\/$/, "");
+
+const staticApiFiles = {
+  "/api/config": "config.json",
+  "/api/summary": "summary.json",
+  "/api/responses": "responses.json",
+  "/api/export.csv": "export.csv",
 };
 
 const routeByPath = {
@@ -418,12 +440,64 @@ const zhStaticCopy = {
   "This public prototype is for educational research presentation; avoid submitting sensitive personal information.": "这个公开原型用于教育研究展示，请避免提交敏感个人信息。",
 };
 
+function normalizeBasePath(path) {
+  if (!path || path === "/") return "";
+  const clean = String(path).replace(/\/+$/, "");
+  return clean.startsWith("/") ? clean : `/${clean}`;
+}
+
+function stripQuery(path) {
+  return String(path).split("?")[0];
+}
+
+function pathWithoutBase(path) {
+  if (/^https?:\/\//.test(path)) return path;
+  let clean = path.startsWith("/") ? path : `/${path}`;
+  clean = clean.replace(/\/+$/, "") || "/";
+  if (deployment.basePath && (clean === deployment.basePath || clean.startsWith(`${deployment.basePath}/`))) {
+    clean = clean.slice(deployment.basePath.length).replace(/\/+$/, "") || "/";
+  }
+  return clean;
+}
+
+function pagePath(path) {
+  if (/^https?:\/\//.test(path)) return path;
+  const clean = pathWithoutBase(path);
+  if (!deployment.basePath) return clean;
+  if (clean === "/") return `${deployment.basePath}/`;
+  return `${deployment.basePath}${clean}`;
+}
+
+function staticApiUrl(path) {
+  if (!deployment.staticApiBase && !deployment.basePath) return null;
+  const clean = pathWithoutBase(stripQuery(path));
+  const file = staticApiFiles[clean];
+  if (!file) return null;
+  if (deployment.staticApiBase) return `${deployment.staticApiBase}/${file}`;
+  return pagePath(`/api/${file}`);
+}
+
+function backendApiUrl(path) {
+  const clean = pathWithoutBase(stripQuery(path));
+  const query = String(path).includes("?") ? `?${String(path).split("?").slice(1).join("?")}` : "";
+  return deployment.apiBase ? `${deployment.apiBase}${clean}${query}` : `${clean}${query}`;
+}
+
+function apiDownloadUrl(path) {
+  if (deployment.apiBase && appState.apiOnline && !deployment.preferStaticApi) return backendApiUrl(path);
+  return staticApiUrl(path) || backendApiUrl(path);
+}
+
+function normalizedPathname() {
+  return pathWithoutBase(window.location.pathname);
+}
+
 function t(key) {
   return i18n[appState.language][key] ?? i18n.en[key] ?? key;
 }
 
 function currentRoute() {
-  return routeByPath[window.location.pathname] ?? "home";
+  return routeByPath[normalizedPathname()] ?? "home";
 }
 
 function applyRoute() {
@@ -446,10 +520,66 @@ function applyRoute() {
   });
 }
 
-async function getJson(url, options) {
-  const response = await fetch(url, options);
+async function fetchWithTimeout(url, options = {}, timeoutMs = 2800) {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
+async function getJson(url, options = {}) {
+  const clean = pathWithoutBase(stripQuery(url));
+  const method = String(options.method || "GET").toUpperCase();
+  if (method !== "GET" && clean.startsWith("/api/") && (!deployment.apiBase || deployment.preferStaticApi || appState.apiBackendFailed)) {
+    throw new Error("Backend API unavailable; using browser scoring.");
+  }
+  const candidates = [];
+  if (clean.startsWith("/api/") && deployment.apiBase && !deployment.preferStaticApi && !appState.apiBackendFailed) {
+    candidates.push({ url: backendApiUrl(url), source: "backend" });
+  }
+  if (method === "GET" && clean.startsWith("/api/")) {
+    const fallback = staticApiUrl(url);
+    if (fallback) candidates.push({ url: fallback, source: "static" });
+  }
+  if (!candidates.length) candidates.push({ url, source: "local" });
+
+  let lastError;
+  for (const candidate of candidates) {
+    try {
+      const response = await fetchWithTimeout(candidate.url, options);
+      if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+      if (candidate.source === "backend") appState.apiOnline = true;
+      if (candidate.source === "static" && clean.startsWith("/api/")) appState.apiOnline = false;
+      return response.json();
+    } catch (error) {
+      lastError = error;
+      if (candidate.source === "backend") appState.apiBackendFailed = true;
+    }
+  }
+  throw lastError || new Error(`Request failed: ${url}`);
+}
+
+function initDeploymentLinks() {
+  document.querySelectorAll("a[href^='/']").forEach((link) => {
+    const href = link.getAttribute("href");
+    if (!href) return;
+    const localHref = pathWithoutBase(href);
+    if (localHref.startsWith("/api/")) {
+      link.href = apiDownloadUrl(href);
+      return;
+    }
+    link.href = pagePath(localHref);
+  });
+}
+
+async function getCsvText(path) {
+  const url = apiDownloadUrl(path);
+  const response = await fetchWithTimeout(url, {}, 3500);
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-  return response.json();
+  return response.text();
 }
 
 function applyLanguage() {
@@ -589,6 +719,106 @@ function collectForm() {
     if (data[key] !== "" && !Number.isNaN(Number(data[key]))) data[key] = Number(data[key]);
   }
   return data;
+}
+
+function mean(values) {
+  return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0;
+}
+
+function scale0100(value, min = 1, max = 5) {
+  return Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
+}
+
+function payloadNumber(payload, key, fallback = 0) {
+  const value = Number(payload[key] ?? fallback);
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function payloadItems(payload, prefix, count, fallback = 3) {
+  return Array.from({ length: count }, (_, index) => payloadNumber(payload, `${prefix}${index + 1}`, fallback));
+}
+
+function payloadBinary(payload, prefix, count) {
+  return Array.from({ length: count }, (_, index) => (payloadNumber(payload, `${prefix}${index + 1}`, 0) >= 1 ? 1 : 0));
+}
+
+function classifyLocal(scores) {
+  if (scores.risk_decision_index < 38 && scores.social_connection_score >= 55) return "Social-buffered deliberator";
+  if (scores.immediate_reward_bias >= 67 && scores.impulsive_spending_score >= 60) return "Reward-sensitive accelerator";
+  if (scores.high_risk_choice_score >= 70) return "Risk-seeking chooser";
+  if (scores.conflict_defense_score >= 65) return "Conflict-defensive responder";
+  return "Balanced decision-maker";
+}
+
+function interpretLocal(scores) {
+  const risk = scores.risk_decision_index;
+  const loneliness = scores.loneliness_score;
+  const connection = scores.social_connection_score;
+  const riskText = risk >= 70 ? "high" : risk >= 50 ? "moderate" : "lower";
+  let mechanism = "The profile is mixed and should be interpreted as educational, not diagnostic.";
+  if (loneliness >= 65 && connection < 45) mechanism = "The profile suggests a combination of perceived isolation and weaker social buffering.";
+  else if (loneliness >= 65) mechanism = "Loneliness is elevated, but some connection resources remain visible.";
+  else if (connection >= 60) mechanism = "Social connection appears to be a protective factor in this profile.";
+  return `Your composite risk-decision profile is ${riskText}. ${mechanism}`;
+}
+
+function scorePayloadLocal(payload) {
+  const scores = {
+    loneliness_score: scale0100(mean(payloadItems(payload, "lq", 7))),
+    social_connection_score: scale0100(mean(payloadItems(payload, "sci", 6))),
+    immediate_reward_bias: mean(payloadBinary(payload, "delay_immediate_choice_", 6)) * 100,
+    impulsive_spending_score: scale0100(mean(payloadItems(payload, "spend", 5))),
+    high_risk_choice_score: mean(payloadBinary(payload, "risk_choice_", 5)) * 100,
+    conflict_defense_score: scale0100(mean(payloadItems(payload, "conflict_defense_", 5))),
+  };
+  scores.risk_decision_index =
+    0.35 * scores.immediate_reward_bias
+    + 0.25 * scores.impulsive_spending_score
+    + 0.25 * scores.high_risk_choice_score
+    + 0.15 * scores.conflict_defense_score;
+  Object.keys(scores).forEach((key) => {
+    scores[key] = Number(scores[key].toFixed(1));
+  });
+  scores.decision_type = classifyLocal(scores);
+  scores.interpretation = interpretLocal(scores);
+  return scores;
+}
+
+function localRows() {
+  try {
+    return JSON.parse(window.localStorage.getItem("lrdlLocalSubmissions") || "[]");
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalRow(payload, scores) {
+  const rows = localRows();
+  const row = {
+    participant_id: `Browser Participant ${rows.length + 1}`,
+    source_type: "browser_session",
+    age: payload.age ?? "",
+    population: payload.population ?? "",
+    loneliness_score: scores.loneliness_score,
+    social_connection_score: scores.social_connection_score,
+    immediate_reward_bias: scores.immediate_reward_bias,
+    impulsive_spending_score: scores.impulsive_spending_score,
+    high_risk_choice_score: scores.high_risk_choice_score,
+    conflict_defense_score: scores.conflict_defense_score,
+    risk_decision_index: scores.risk_decision_index,
+    decision_type: scores.decision_type,
+  };
+  rows.unshift(row);
+  window.localStorage.setItem("lrdlLocalSubmissions", JSON.stringify(rows.slice(0, 80)));
+  return row;
+}
+
+function summaryWithLocalRows(summary) {
+  const rows = localRows();
+  const copy = typeof structuredClone === "function" ? structuredClone(summary) : JSON.parse(JSON.stringify(summary));
+  copy.source_counts = copy.source_counts || {};
+  copy.source_counts.live_submission = Number(copy.source_counts.live_submission || 0) + rows.length;
+  return copy;
 }
 
 function destroyChart(id) {
@@ -993,7 +1223,8 @@ function initReveal() {
 }
 
 function initShareLink() {
-  const link = `${window.location.origin}/survey`;
+  const publicBase = deployment.publicSiteUrl || `${window.location.origin}${deployment.basePath}`;
+  const link = `${publicBase}/survey`;
   const linkEl = document.querySelector("#surveyPublicLink");
   const copyButton = document.querySelector("#copySurveyLink");
   const qrEl = document.querySelector("#surveyQrCode");
@@ -1044,13 +1275,13 @@ function initTestRouting() {
   if (!testSection) return;
   const openLegacyHash = () => {
     if (window.location.hash !== "#questionnaire") return;
-    window.history.replaceState(null, "", "/survey");
+    window.history.replaceState(null, "", pagePath("/survey"));
     applyRoute();
     window.setTimeout(() => testSection.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
   };
   document.querySelectorAll("[data-start-test]").forEach((link) => {
     link.addEventListener("click", (event) => {
-      if (window.location.pathname !== "/survey") return;
+      if (normalizedPathname() !== "/survey") return;
       event.preventDefault();
       applyRoute();
       testSection.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1100,7 +1331,7 @@ function renderSources(config) {
 
 async function renderResponses() {
   const data = await getJson("/api/responses?limit=25");
-  const rows = [...data.live, ...data.synthetic].slice(0, 30);
+  const rows = [...localRows(), ...data.live, ...data.synthetic].slice(0, 30);
   const tbody = document.querySelector("#responsePreview tbody");
   if (!tbody) return;
   tbody.innerHTML = rows
@@ -1149,21 +1380,29 @@ function renderReport(scores) {
 async function score(save) {
   const payload = collectForm();
   const endpoint = save ? "/api/submit" : "/api/score";
-  const result = await getJson(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  const scores = save ? result.scores : result;
+  let scores;
+  let result;
+  try {
+    result = await getJson(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    scores = save ? result.scores : result;
+  } catch {
+    scores = scorePayloadLocal(payload);
+    if (save) saveLocalRow(payload, scores);
+  }
   renderReport(scores);
   if (save) {
-    appState.summary = result.summary;
+    appState.summary = result?.summary || summaryWithLocalRows(appState.summary);
     renderCharts(appState.summary);
     await renderResponses();
   }
 }
 
 async function boot() {
+  initDeploymentLinks();
   applyRoute();
   renderLikert();
   renderTasks();
@@ -1179,10 +1418,11 @@ async function boot() {
   });
   document.querySelector("#scoreOnly")?.addEventListener("click", async () => score(false));
   appState.config = await getJson("/api/config");
-  appState.summary = await getJson("/api/summary");
+  appState.summary = summaryWithLocalRows(await getJson("/api/summary"));
   renderSources(appState.config);
   renderCharts(appState.summary);
   await renderResponses();
+  initDeploymentLinks();
   initShareLink();
   initDetailsCharts();
   initTestRouting();

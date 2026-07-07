@@ -60,15 +60,29 @@ GitHub repository:
 https://github.com/haobosun940-crypto/loneliness-risk-decision-lab
 ```
 
-This folder is ready for a Render web-service deployment through `render.yaml`.
+GitHub Pages public prototype:
+
+```text
+https://haobosun940-crypto.github.io/loneliness-risk-decision-lab
+```
+
+Public questionnaire route:
+
+```text
+https://haobosun940-crypto.github.io/loneliness-risk-decision-lab/survey
+```
+
+The `docs/` folder is the GitHub Pages build. It preserves the visual site, questionnaire scoring, static dashboard data, CSV export, and downloadable PDF/DOCX/PPTX/XLSX/video/package assets. Browser-only submissions are stored in that visitor's browser session when no public API is online.
+
+For a central live database, deploy the Python backend through Render using `render.yaml`.
 
 1. Push this project folder to a GitHub repository.
 2. Open Render, choose **New +** then **Blueprint**, and connect the repository.
 3. Render will read `render.yaml`, build with `python -m compileall server.py`, and start with `python server.py`.
-4. After deployment, use the Render HTTPS URL as the public questionnaire link:
+4. After deployment, the GitHub Pages frontend can call the Render API for live submissions and CSV export:
 
 ```text
-https://your-render-service.onrender.com/survey
+https://loneliness-risk-decision-lab.onrender.com
 ```
 
 Render Blueprint deeplink:
