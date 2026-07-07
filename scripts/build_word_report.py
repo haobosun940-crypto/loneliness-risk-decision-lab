@@ -284,8 +284,14 @@ def build_docx() -> None:
     )
     set_run_font(subtitle_run, size=12, color=MUTED)
 
+    developer = doc.add_paragraph()
+    developer.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    developer_run = developer.add_run("Developed by He Haoze (何昊泽)")
+    set_run_font(developer_run, size=11, color=TEAL, bold=True)
+
     meta_rows = [
         ["Field", "Value"],
+        ["Developer", "He Haoze (何昊泽)"],
         ["Target population", "Late adolescents and emerging adults, ages 16-24"],
         ["Data status", f"{stats['n']} synthetic pilot rows plus separated live submissions"],
         ["Current public survey", links["current_public_survey"]],
@@ -437,9 +443,10 @@ def build_docx() -> None:
         set_run_font(run, size=9.5, color=INK)
 
     doc.core_properties.title = "Loneliness, Social Connection, and Risk Decisions"
+    doc.core_properties.author = "He Haoze (何昊泽)"
     doc.core_properties.subject = "Quantitative psychology and statistics research report"
     doc.core_properties.keywords = "loneliness, social connectedness, risk decisions, ANOVA, regression, survey"
-    doc.core_properties.comments = "Generated research report. Synthetic and live data are explicitly separated."
+    doc.core_properties.comments = "Developed by He Haoze (何昊泽). Synthetic and live data are explicitly separated."
     doc.save(DOCX_PATH)
     print(DOCX_PATH)
 

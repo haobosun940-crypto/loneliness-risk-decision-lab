@@ -117,7 +117,7 @@ def main() -> None:
         "apiBase": EXPECTED_API,
         "staticApiBase": f"{BASE_PATH}/api",
         "publicSiteUrl": PUBLIC_SITE,
-        "preferStaticApi": False,
+        "preferStaticApi": True,
     }
     (DOCS / "page-config.js").write_text(f"window.LRDL_CONFIG = {json.dumps(config, ensure_ascii=False, indent=2)};\n", encoding="utf-8")
 

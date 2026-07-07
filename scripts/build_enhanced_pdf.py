@@ -41,9 +41,12 @@ def format_p(value: float) -> str:
 
 def header_footer(canvas, doc) -> None:
     canvas.saveState()
+    canvas.setTitle("Loneliness, Social Connection, and Risk Decisions")
+    canvas.setAuthor("He Haoze (何昊泽)")
+    canvas.setSubject("Quantitative psychology and statistics research paper")
     canvas.setFont("Helvetica", 8.8)
     canvas.setFillColor(colors.HexColor("#5D6B7C"))
-    canvas.drawString(0.65 * inch, 0.42 * inch, "Loneliness, Social Connection, and Risk Decisions")
+    canvas.drawString(0.65 * inch, 0.42 * inch, "Loneliness, Social Connection, and Risk Decisions | Developed by He Haoze")
     canvas.drawRightString(7.85 * inch, 0.42 * inch, f"Page {doc.page}")
     canvas.restoreState()
 
@@ -207,6 +210,7 @@ def build_pdf() -> None:
             styles["BodySmall"],
         )
     )
+    story.append(p("Developer credit: He Haoze (何昊泽).", styles["BodySmall"]))
 
     story.append(rich("Abstract", styles["Section"]))
     story.append(

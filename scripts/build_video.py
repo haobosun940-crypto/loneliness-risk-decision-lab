@@ -6,6 +6,7 @@ from __future__ import annotations
 import math
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -49,6 +50,8 @@ Then the statistics layer runs reliability checks, ANOVA, and OLS models, while 
 The first pattern is clear: higher loneliness maps onto a higher Risk Decision Index, while social connection buffers the effect.
 
 This is a public research product: survey, database, dashboard, paper, workbook, slides, and video, ready to grow with real student data.
+
+Developed by He Haoze.
 """
 
 
@@ -79,10 +82,46 @@ def available_voices() -> str:
 
 def choose_voice() -> str:
     voices = available_voices()
-    for candidate in ["Flo (英语（美国）)", "Sandy (英语（美国）)", "Shelley (英语（美国）)", "Samantha"]:
+    for candidate in ["Samantha", "Daniel", "Karen", "Moira", "Tessa"]:
         if candidate in voices:
             return candidate
     return "Samantha"
+
+
+def build_narration(script_path: Path) -> tuple[Path, str]:
+    """Prefer a neural voiceover; fall back to a neutral system voice offline."""
+    edge_path = TMP_DIR / "narration_edge.mp3"
+    try:
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "edge_tts",
+                "-f",
+                str(script_path),
+                "-v",
+                "en-US-JennyNeural",
+                "--rate",
+                "-3%",
+                "--pitch",
+                "+0Hz",
+                "--write-media",
+                str(edge_path),
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=45,
+        )
+        if edge_path.exists() and edge_path.stat().st_size > 10_000:
+            return edge_path, "en-US-JennyNeural"
+    except Exception as error:
+        print(f"Edge neural TTS unavailable, using macOS say fallback: {error}")
+
+    fallback_path = TMP_DIR / "narration.aiff"
+    voice = choose_voice()
+    run(["say", "-v", voice, "-r", "148", "-f", str(script_path), "-o", str(fallback_path)])
+    return fallback_path, voice
 
 
 def audio_duration(path: Path) -> float:
@@ -300,7 +339,8 @@ def scene_final(_img, draw, t, p):
         local = ease(min(1, max(0, p * 1.4 - i * 0.16)))
         panel(draw, (int(x + (1 - local) * 220), y, 1740, y + 92))
         draw_text(draw, (int(x + (1 - local) * 220) + 36, y + 26), item, font(30, True), C["ink"])
-    draw_text(draw, (96, 870), "Not a diagnosis. A transparent research prototype for learning, collecting, and explaining behavioral data.", font(30, True), C["blue"], max_width=820)
+    draw_text(draw, (96, 840), "Not a diagnosis. A transparent research prototype for learning, collecting, and explaining behavioral data.", font(30, True), C["blue"], max_width=820)
+    draw_text(draw, (96, 928), "Developed by He Haoze", font(28, True), C["teal"], max_width=820)
 
 
 SCENES = [
@@ -349,12 +389,10 @@ def main() -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
     TMP_DIR.mkdir(parents=True, exist_ok=True)
     script_path = OUTPUT_DIR / "loneliness_risk_video_script.txt"
-    audio_path = TMP_DIR / "narration.aiff"
     mp4_path = OUTPUT_DIR / "loneliness_risk_intro_video.mp4"
     script_path.write_text(SCRIPT, encoding="utf-8")
-    voice = choose_voice()
 
-    run(["say", "-v", voice, "-r", "152", "-f", str(script_path), "-o", str(audio_path)])
+    audio_path, voice = build_narration(script_path)
     duration = max(52.0, audio_duration(audio_path) + 0.8)
     sequence_dir = render_sequence(duration)
     fade_out_start = max(0.0, duration - 0.9)
@@ -368,25 +406,13 @@ def main() -> None:
             str(sequence_dir / "seq_%05d.jpg"),
             "-i",
             str(audio_path),
-            "-f",
-            "lavfi",
-            "-t",
-            f"{duration:.3f}",
-            "-i",
-            "sine=frequency=196:sample_rate=44100",
-            "-f",
-            "lavfi",
-            "-t",
-            f"{duration:.3f}",
-            "-i",
-            "sine=frequency=392:sample_rate=44100",
             "-filter_complex",
             (
-                f"[1:a]highpass=f=90,lowpass=f=9000,"
-                f"acompressor=threshold=-18dB:ratio=2.2:attack=18:release=220,"
-                f"volume=1.18,afade=t=in:st=0:d=0.35,afade=t=out:st={fade_out_start:.2f}:d=0.9[voice];"
-                "[2:a]volume=0.018[bed1];[3:a]volume=0.010[bed2];"
-                "[voice][bed1][bed2]amix=inputs=3:duration=first:dropout_transition=0[aout]"
+                f"[1:a]highpass=f=75,lowpass=f=11500,"
+                f"acompressor=threshold=-20dB:ratio=1.65:attack=22:release=180,"
+                f"equalizer=f=180:t=q:w=1.2:g=-1.4,"
+                f"equalizer=f=3400:t=q:w=1.4:g=1.2,"
+                f"volume=1.08,afade=t=in:st=0:d=0.25,afade=t=out:st={fade_out_start:.2f}:d=0.9[aout]"
             ),
             "-map",
             "0:v",
@@ -401,11 +427,13 @@ def main() -> None:
             "-preset",
             "medium",
             "-crf",
-            "22",
+            "24",
             "-c:a",
             "aac",
             "-b:a",
-            "96k",
+            "128k",
+            "-movflags",
+            "+faststart",
             "-shortest",
             str(mp4_path),
         ]

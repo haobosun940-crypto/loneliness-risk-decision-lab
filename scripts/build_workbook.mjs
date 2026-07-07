@@ -97,6 +97,10 @@ async function main() {
   dashboard.getRange("A1:H1").merge();
   dashboard.getRange("A1").values = [["Loneliness, Social Connection, and Risk Decisions"]];
   styleTitle(dashboard.getRange("A1:H1"));
+  dashboard.getRange("A2:B2").values = [["Developer", "He Haoze (何昊泽)"]];
+  styleTable(dashboard.getRange("A2:B2"));
+  dashboard.getRange("A2").format = { fill: "#E6F7F5", font: { bold: true, color: "#0F766E" } };
+  dashboard.getRange("B2").format = { fill: "#F7FCFB", font: { bold: true, color: "#0F172A" } };
   dashboard.getRange("A3:B8").values = [
     ["Metric", "Value"],
     ["Synthetic pilot rows", null],
@@ -267,6 +271,7 @@ async function main() {
 
   const linkRows = [
     ["Asset", "URL", "Use"],
+    ["Developer", "He Haoze (何昊泽)", "Visible authorship and project developer credit."],
     ["Current public site", links.current_public_site, "Public homepage while the local server and tunnel remain running."],
     ["Current public survey", links.current_public_survey, "Share this with classmates for immediate survey collection."],
     ["GitHub repository", links.github_repository, "Source code, outputs, and reproducibility record."],

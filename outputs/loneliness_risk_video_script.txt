@@ -11,3 +11,5 @@ Then the statistics layer runs reliability checks, ANOVA, and OLS models, while 
 The first pattern is clear: higher loneliness maps onto a higher Risk Decision Index, while social connection buffers the effect.
 
 This is a public research product: survey, database, dashboard, paper, workbook, slides, and video, ready to grow with real student data.
+
+Developed by He Haoze.
