@@ -44,9 +44,10 @@ def header_footer(canvas, doc) -> None:
     canvas.setTitle("Loneliness, Social Connection, and Risk Decisions")
     canvas.setAuthor("He Haoze (何昊泽)")
     canvas.setSubject("Quantitative psychology and statistics research paper")
+    canvas.drawImage(str(ASSET_DIR / "lrdl_logo_mark.png"), 0.55 * inch, 0.26 * inch, width=0.27 * inch, height=0.27 * inch, mask="auto")
     canvas.setFont("Helvetica", 8.8)
     canvas.setFillColor(colors.HexColor("#5D6B7C"))
-    canvas.drawString(0.65 * inch, 0.42 * inch, "Loneliness, Social Connection, and Risk Decisions | Developed by He Haoze")
+    canvas.drawString(0.88 * inch, 0.42 * inch, "Loneliness, Social Connection, and Risk Decisions | LRDL-HHZ | Developed by He Haoze")
     canvas.drawRightString(7.85 * inch, 0.42 * inch, f"Page {doc.page}")
     canvas.restoreState()
 
@@ -179,6 +180,12 @@ def image(path: str, width: float, height: float) -> Image:
     return Image(str(ASSET_DIR / path), width=width, height=height)
 
 
+def logo_lockup(width: float, height: float) -> Image:
+    logo = Image(str(ASSET_DIR / "lrdl_logo_lockup.png"), width=width, height=height)
+    logo.hAlign = "CENTER"
+    return logo
+
+
 def build_pdf() -> None:
     stats = load_json("stats_summary.json")
     sources = load_json("sources.json")
@@ -197,6 +204,7 @@ def build_pdf() -> None:
     )
     story = []
 
+    story.append(logo_lockup(width=3.35 * inch, height=0.97 * inch))
     story.append(rich("Loneliness, Social Connection, and Risk Decisions", styles["PaperTitle"]))
     story.append(
         p(
@@ -211,6 +219,7 @@ def build_pdf() -> None:
         )
     )
     story.append(p("Developer credit: He Haoze (何昊泽).", styles["BodySmall"]))
+    story.append(p("Logo/IP mark: LRDL-HHZ Connection Lens.", styles["BodySmall"]))
 
     story.append(rich("Abstract", styles["Section"]))
     story.append(

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 208" role="img" aria-labelledby="title desc">
+  <title id="title">Loneliness Risk Decision Lab LRDL-HHZ logo lockup</title>
+  <desc id="desc">Project lockup for Loneliness Risk Decision Lab, developed by He Haoze.</desc>
+  <rect x="8" y="8" width="704" height="192" rx="24" fill="#FFFFFF" fill-opacity="0.92" stroke="#BFD6EA"/>
+  <svg x="24" y="34" width="140" height="140" viewBox="0 0 128 128">
+  <title id="title">LRDL-HHZ Connection Lens logo</title>
+  <desc id="desc">Logo for the Loneliness Risk Decision Lab by He Haoze, combining social connection nodes, risk curve, and H monogram.</desc>
+  <defs>
+    <linearGradient id="bg" x1="16" y1="112" x2="112" y2="16" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B213A"/>
+      <stop offset="0.52" stop-color="#123A62"/>
+      <stop offset="1" stop-color="#2764FF"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#071426" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect x="10" y="10" width="108" height="108" rx="22" fill="url(#bg)" filter="url(#softShadow)"/>
+  <rect x="15" y="15" width="98" height="98" rx="17" fill="none" stroke="#DDF7FF" stroke-opacity="0.68" stroke-width="2"/>
+  <path d="M35 83 L40 39 L76 67 L94 34 M35 83 L76 67 L69 91" fill="none" stroke="#DDF7FF" stroke-opacity="0.72" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M26 88 C43 66 72 77 101 56" fill="none" stroke="#F4A21A" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M102 56 L95 55 L99 62 Z" fill="#F4A21A"/>
+  <circle cx="35" cy="83" r="9" fill="#E63F66" stroke="#fff" stroke-width="2"/>
+  <circle cx="40" cy="39" r="8" fill="#0FBAA7" stroke="#fff" stroke-width="2"/>
+  <circle cx="76" cy="67" r="10" fill="#F4A21A" stroke="#fff" stroke-width="2"/>
+  <circle cx="94" cy="34" r="8" fill="#2764FF" stroke="#fff" stroke-width="2"/>
+  <circle cx="69" cy="91" r="8" fill="#2ABDF5" stroke="#fff" stroke-width="2"/>
+  <text x="64" y="73" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800" fill="#fff">H</text>
+  <text x="64" y="103" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="9" font-weight="800" fill="#DDF7FF">HHZ</text>
+</svg>
+  <line x1="190" y1="45" x2="190" y2="163" stroke="#D5E4F2"/>
+  <text x="218" y="73" font-family="Arial, Helvetica, sans-serif" font-size="31" font-weight="800" fill="#071426">Loneliness Risk Decision Lab</text>
+  <text x="220" y="108" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="800" fill="#0FBAA7">LRDL-HHZ Connection Lens</text>
+  <text x="220" y="138" font-family="Arial, Helvetica, sans-serif" font-size="14" fill="#607086">Social connection + risk decision research OS</text>
+  <text x="220" y="166" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" fill="#2764FF">Developed by He Haoze</text>
+</svg>

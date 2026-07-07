@@ -244,10 +244,15 @@ def set_styles(doc: Document) -> None:
     caption.paragraph_format.space_after = Pt(8)
 
     header = section.header.paragraphs[0]
-    header.text = "Loneliness & Risk Decision Lab"
+    header.text = ""
     header.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    logo_run = header.add_run()
+    logo_run.add_picture(str(ASSET_DIR / "lrdl_logo_mark.png"), width=Inches(0.28))
+    text_run = header.add_run("  Loneliness & Risk Decision Lab | LRDL-HHZ")
+    set_run_font(text_run, size=9, color=MUTED, bold=True)
     for run in header.runs:
-        set_run_font(run, size=9, color=MUTED)
+        if run is not logo_run and run is not text_run:
+            set_run_font(run, size=9, color=MUTED)
 
     footer = section.footer.paragraphs[0]
     footer.alignment = WD_ALIGN_PARAGRAPH.RIGHT
@@ -266,6 +271,11 @@ def build_docx() -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
     doc = Document()
     set_styles(doc)
+
+    logo = doc.add_paragraph()
+    logo.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    logo_run = logo.add_run()
+    logo_run.add_picture(str(ASSET_DIR / "lrdl_logo_lockup.png"), width=Inches(3.35))
 
     kicker = doc.add_paragraph("QUANTITATIVE PSYCHOLOGY AND STATISTICS REPORT")
     kicker.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -292,6 +302,7 @@ def build_docx() -> None:
     meta_rows = [
         ["Field", "Value"],
         ["Developer", "He Haoze (何昊泽)"],
+        ["Logo / IP mark", "LRDL-HHZ Connection Lens"],
         ["Target population", "Late adolescents and emerging adults, ages 16-24"],
         ["Data status", f"{stats['n']} synthetic pilot rows plus separated live submissions"],
         ["Current public survey", links["current_public_survey"]],

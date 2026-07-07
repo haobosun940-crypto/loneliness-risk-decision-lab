@@ -78,6 +78,8 @@ async function main() {
   const config = JSON.parse(await fs.readFile(path.join(dataDir, "study_config.json"), "utf8"));
   const links = JSON.parse(await fs.readFile(path.join(dataDir, "publication_links.json"), "utf8"));
   const stata = await fs.readFile(path.join(dataDir, "stata_analysis.do"), "utf8");
+  const logoBytes = await fs.readFile(path.join(root, "assets", "lrdl_logo_mark.png"));
+  const logoDataUrl = `data:image/png;base64,${Buffer.from(logoBytes).toString("base64")}`;
 
   const workbook = Workbook.create();
   const dashboard = workbook.worksheets.add("Dashboard");
@@ -97,6 +99,10 @@ async function main() {
   dashboard.getRange("A1:H1").merge();
   dashboard.getRange("A1").values = [["Loneliness, Social Connection, and Risk Decisions"]];
   styleTitle(dashboard.getRange("A1:H1"));
+  dashboard.images.add({
+    dataUrl: logoDataUrl,
+    anchor: { from: { row: 0, col: 8, rowOffsetPx: 4, colOffsetPx: 10 }, extent: { widthPx: 58, heightPx: 58 } },
+  });
   dashboard.getRange("A2:B2").values = [["Developer", "He Haoze (何昊泽)"]];
   styleTable(dashboard.getRange("A2:B2"));
   dashboard.getRange("A2").format = { fill: "#E6F7F5", font: { bold: true, color: "#0F766E" } };
@@ -121,6 +127,14 @@ async function main() {
   dashboard.getRange("B8").format.numberFormat = "0.000";
   dashboard.getRange("A1:A15").format.columnWidthPx = 210;
   dashboard.getRange("B1:B15").format.columnWidthPx = 90;
+  dashboard.getRange("J1:K3").merge();
+  dashboard.getRange("J1").values = [["LRDL-HHZ\nConnection Lens\nDeveloped by He Haoze"]];
+  dashboard.getRange("J1:K3").format = {
+    fill: "#F7FCFB",
+    font: { bold: true, color: "#0F766E", size: 11 },
+    wrapText: true,
+    borders: { preset: "outside", style: "thin", color: "#BFD6EA" },
+  };
 
   const groupStart = 3;
   dashboard.getRange("D2:G2").merge();
@@ -272,6 +286,7 @@ async function main() {
   const linkRows = [
     ["Asset", "URL", "Use"],
     ["Developer", "He Haoze (何昊泽)", "Visible authorship and project developer credit."],
+    ["Logo / IP mark", "LRDL-HHZ Connection Lens", "Project identity mark embedded in the public website and deliverables."],
     ["Current public site", links.current_public_site, "Public homepage while the local server and tunnel remain running."],
     ["Current public survey", links.current_public_survey, "Share this with classmates for immediate survey collection."],
     ["GitHub repository", links.github_repository, "Source code, outputs, and reproducibility record."],

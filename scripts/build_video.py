@@ -72,6 +72,18 @@ def font(size: int, bold: bool = False):
     return ImageFont.load_default()
 
 
+LOGO_CACHE: dict[tuple[str, int], Image.Image] = {}
+
+
+def logo_asset(name: str, width: int) -> Image.Image:
+    key = (name, width)
+    if key not in LOGO_CACHE:
+        src = Image.open(ASSET_DIR / name).convert("RGBA")
+        height = max(1, int(src.height * (width / src.width)))
+        LOGO_CACHE[key] = src.resize((width, height), Image.Resampling.LANCZOS)
+    return LOGO_CACHE[key]
+
+
 def available_voices() -> str:
     try:
         result = subprocess.run(["say", "-v", "?"], check=True, capture_output=True, text=True)
@@ -223,14 +235,16 @@ def panel(draw, box, title=None, dark=False):
         draw_text(draw, (box[0] + 28, box[1] + 24), title, font(26, True), C["cyan"] if dark else C["blue"])
 
 
-def draw_header(draw, title: str, subtitle: str):
-    draw_text(draw, (92, 74), "LONELINESS & RISK DECISION LAB", font(24, True), C["pink"])
-    draw_text(draw, (92, 124), title, font(66, True), C["ink"], max_width=920, line_gap=8)
+def draw_header(img, draw, title: str, subtitle: str):
+    mark = logo_asset("lrdl_logo_mark.png", 88)
+    img.paste(mark, (92, 60), mark)
+    draw_text(draw, (198, 74), "LRDL-HHZ CONNECTION LENS", font(24, True), C["pink"])
+    draw_text(draw, (92, 150), title, font(66, True), C["ink"], max_width=920, line_gap=8)
     draw_text(draw, (96, 292), subtitle, font(31), "#42566E", max_width=760, line_gap=10)
 
 
 def scene_question(_img, draw, t, p):
-    draw_header(draw, "Does loneliness change risk decisions?", "A three-minute behavioral test links loneliness, social connection, and reward preference to a decision-risk profile.")
+    draw_header(_img, draw, "Does loneliness change risk decisions?", "A three-minute behavioral test links loneliness, social connection, and reward preference to a decision-risk profile.")
     x = int(1040 + (1 - ease(p)) * 220)
     panel(draw, (x, 190, x + 700, 820), dark=True)
     labels = [("Loneliness", C["pink"], 0.78), ("Connection", C["cyan"], 0.38), ("Risk Index", C["gold"], 0.64)]
@@ -243,7 +257,7 @@ def scene_question(_img, draw, t, p):
 
 
 def scene_pipeline(_img, draw, t, p):
-    draw_header(draw, "From survey to research evidence", "The site is not just a page. It is a data collection, scoring, modeling, and reporting workflow.")
+    draw_header(_img, draw, "From survey to research evidence", "The site is not just a page. It is a data collection, scoring, modeling, and reporting workflow.")
     steps = [
         ("Survey", "self-report + choices", C["blue"]),
         ("Scoring", "0-100 indicators", C["teal"]),
@@ -264,7 +278,7 @@ def scene_pipeline(_img, draw, t, p):
 
 
 def scene_network(_img, draw, t, p):
-    draw_header(draw, "Psychology becomes measurable signals", "Loneliness, connection, stress, risk, and impulsivity move through the same animated model surface.")
+    draw_header(_img, draw, "Psychology becomes measurable signals", "Loneliness, connection, stress, risk, and impulsivity move through the same animated model surface.")
     panel(draw, (930, 160, 1780, 890), "Quant cockpit", dark=True)
     nodes = {
         "L": (1120, 610, C["pink"]),
@@ -299,7 +313,7 @@ def scene_network(_img, draw, t, p):
 
 
 def scene_charts(_img, draw, t, p):
-    draw_header(draw, "The pilot pattern is visible", "Synthetic rows are labeled as demonstration data, while live submissions stay separate for future analysis.")
+    draw_header(_img, draw, "The pilot pattern is visible", "Synthetic rows are labeled as demonstration data, while live submissions stay separate for future analysis.")
     panel(draw, (930, 170, 1780, 870))
     values = [29.4, 50.9, 66.4]
     labels = ["Low", "Moderate", "High"]
@@ -315,7 +329,7 @@ def scene_charts(_img, draw, t, p):
 
 
 def scene_website(img, draw, t, p):
-    draw_header(draw, "A public website closes the loop", "Participants can scan, complete the test, see a profile, and export live data for analysis.")
+    draw_header(img, draw, "A public website closes the loop", "Participants can scan, complete the test, see a profile, and export live data for analysis.")
     panel(draw, (960, 170, 1740, 870), dark=True)
     qr = Image.open(ASSET_DIR / "questionnaire_qr.png").convert("RGB").resize((260, 260), Image.Resampling.NEAREST)
     draw.rounded_rectangle((1010, 250, 1320, 560), radius=18, fill=C["white"])
@@ -331,7 +345,7 @@ def scene_website(img, draw, t, p):
 
 
 def scene_final(_img, draw, t, p):
-    draw_header(draw, "A research-ready behavioral assessment platform", "Survey, scoring, database, models, dashboard, report, workbook, slides, and video in one workflow.")
+    draw_header(_img, draw, "A research-ready behavioral assessment platform", "Survey, scoring, database, models, dashboard, report, workbook, slides, and video in one workflow.")
     items = ["Start Decision Test", "View Dashboard", "Export CSV", "Download Research Package"]
     for i, item in enumerate(items):
         x = 1040
@@ -339,8 +353,9 @@ def scene_final(_img, draw, t, p):
         local = ease(min(1, max(0, p * 1.4 - i * 0.16)))
         panel(draw, (int(x + (1 - local) * 220), y, 1740, y + 92))
         draw_text(draw, (int(x + (1 - local) * 220) + 36, y + 26), item, font(30, True), C["ink"])
-    draw_text(draw, (96, 840), "Not a diagnosis. A transparent research prototype for learning, collecting, and explaining behavioral data.", font(30, True), C["blue"], max_width=820)
-    draw_text(draw, (96, 928), "Developed by He Haoze", font(28, True), C["teal"], max_width=820)
+    draw_text(draw, (96, 820), "Not a diagnosis. A transparent research prototype for learning, collecting, and explaining behavioral data.", font(30, True), C["blue"], max_width=820)
+    stamp = logo_asset("lrdl_logo_stamp.png", 520)
+    _img.paste(stamp, (92, 900), stamp)
 
 
 SCENES = [
