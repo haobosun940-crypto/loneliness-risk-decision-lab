@@ -74,6 +74,23 @@ https://haobosun940-crypto.github.io/loneliness-risk-decision-lab/survey
 
 The `docs/` folder is the GitHub Pages build. It preserves the visual site, questionnaire scoring, static dashboard data, CSV export, and downloadable PDF/DOCX/PPTX/XLSX/video/package assets. Browser-only submissions are stored in that visitor's browser session when no public API is online.
 
+## Custom Domain Deployment
+
+For a normal `www.example.com` style public website, use the root-domain static build:
+
+```bash
+python3 scripts/build_root_static_site.py
+```
+
+This creates `dist/`, where all paths are served from `/` instead of the GitHub Pages project subpath. Netlify can import this GitHub repository directly and use the included `netlify.toml`:
+
+```text
+Build command: python3 scripts/build_root_static_site.py
+Publish directory: dist
+```
+
+After deployment, add a custom domain in the hosting provider and point the domain DNS record to that provider. See `CUSTOM_DOMAIN_DEPLOYMENT.md` for the full domain setup checklist.
+
 For a central live database, deploy the Python backend through Render using `render.yaml`.
 
 1. Push this project folder to a GitHub repository.
